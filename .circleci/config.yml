@@ -1,0 +1,49 @@
+deploy_defaults: &deploy_defaults
+  steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: Setup Heroku
+        command: |
+            chmod +x .circleci/setup-heroku.sh
+            .circleci/setup-heroku.sh
+    - run:
+        name: Build Docker image
+        command: docker build -t olavim/hy-forum-$SERVICE -f ./$SERVICE/Dockerfile .
+    - run:
+        name: Publish Docker image to Heroku
+        command: |
+            docker login -username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
+            docker push registry.heroku.com/hy-forum-$SERVICE/web
+    - run:
+        name: Deploy to Heroku
+        command: |
+          heroku container:release web --app hy-forum-$SERVICE
+
+version: 2.1
+executors:
+  client-docker-publisher:
+    environment:
+      SERVICE: client
+    docker:
+      - image: circleci/buildpack-deps:stretch
+  server-docker-publisher:
+    environment:
+      SERVICE: server
+    docker:
+      - image: circleci/buildpack-deps:stretch
+
+jobs:
+  deploy-server:
+    executor: server-docker-publisher
+    <<: *deploy_defaults
+
+workflows:
+  version: 2
+  build-n-deploy:
+    jobs:
+      - deploy-server:
+          filters:
+            branches:
+              only: server-ci
