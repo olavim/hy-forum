@@ -10,7 +10,7 @@ A slightly modified version of the example topic "Keskustelufoorumi".
 
 Users can post new messages inside message threads. Users are also allowed to edit and delete their own messages. Users can make new threads, and are allowed to change the title of their own threads later. Users are not allowed to delete threads; their own or anyone else's.
 
-Users may search for threads by their title, creation date, and name of the creator. Users may also search for individual messages by the title of a thread, date of posting, and name of the poster.
+Users may search for threads inside a topic by their title, creation date, and name of the creator. Users may also search for individual messages inside a topic or thread by the date of posting, and name of the poster.
 
 By default, users are shown all threads from newest to oldest, albeit paginated. Each thread is accompanied with information about: original poster, number of messages in thread, date of original post, date of latest post, name of the user who posted the latest message. The user will also see an indicator if the thread contains new messages since he/she previously opened it.
 
@@ -20,9 +20,11 @@ The system includes permission groups, which affect how members of said groups c
 
 Actions (assuming admin privileges):
 - Login/Logout
+- Create, edit, delete topic
 - Create, edit, delete thread
 - Create, edit, delete message
-- List and search threads
+- List topics
+- List and search threads in a topic
 - List messages in a thread
 - Search messages
 - View, edit user details
