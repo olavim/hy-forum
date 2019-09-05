@@ -6,7 +6,7 @@ wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sudo sh
 
 cat > ~/.netrc << EOF
 machine api.heroku.com
-	login $HEROKU_LOGIN
+	login $HEROKU_USERNAME
 	password $HEROKU_API_KEY
 EOF
 chmod 600 ~/.netrc
