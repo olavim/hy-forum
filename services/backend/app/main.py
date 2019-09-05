@@ -1,17 +1,11 @@
 import settings
 import os
-from flask import Flask
 from waitress import serve
-
-app = Flask(__name__)
-
-@app.route('/')
-def root():
-	return 'Hello World!'
-
-port = os.getenv('PORT', '5000')
+from api.routes import app
 
 def main():
+	port = os.getenv('PORT', '5000')
+
 	if os.getenv('FLASK_ENV', 'development') == 'development':
 		app.run(debug=True, port=port)
 	else:
