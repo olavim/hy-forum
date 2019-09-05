@@ -10,11 +10,12 @@ deploy_defaults: &deploy_defaults
             .circleci/setup-heroku.sh
     - run:
         name: Build Docker image
-        command: cd $SERVICE && docker build -t olavim/hy-forum-$SERVICE .
+        command: docker build -t hy-forum-$SERVICE $SERVICE
     - run:
         name: Publish Docker image to Heroku
         command: |
-            docker login -username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
+            echo "$HEROKU_API_KEY" | docker login -username=$HEROKU_USERNAME --password-stdin registry.heroku.com
+            docker tag hy-forum-$SERVICE registry.heroku.com/hy-forum-$SERVICE/web
             docker push registry.heroku.com/hy-forum-$SERVICE/web
     - run:
         name: Deploy to Heroku
