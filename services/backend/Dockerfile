@@ -2,8 +2,9 @@ FROM python:3-alpine
 
 WORKDIR /usr/src/app
 
-COPY app app
-COPY requirements.txt requirements.txt
+COPY run.py ./
+COPY application ./
+COPY requirements.txt ./
 
 RUN apk update \
 	&& apk add --virtual build-deps gcc python3-dev musl-dev \
@@ -14,4 +15,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 80
 
-CMD ["python", "app/main.py"]
+CMD ["python", "run.py"]
