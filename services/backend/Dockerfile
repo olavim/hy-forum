@@ -3,8 +3,8 @@ FROM python:3-alpine
 WORKDIR /usr/src/app
 
 COPY run.py ./
-COPY application ./
 COPY requirements.txt ./
+COPY application ./application
 
 RUN apk update \
 	&& apk add --virtual build-deps gcc python3-dev musl-dev \
