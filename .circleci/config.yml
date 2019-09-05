@@ -37,7 +37,7 @@ executors:
 
 jobs:
   deploy-backend:
-    executor: server-docker-publisher
+    executor: backend-docker-publisher
     <<: *deploy_defaults
 
 workflows:
