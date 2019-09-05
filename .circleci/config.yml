@@ -50,7 +50,7 @@ workflows:
       - deploy-frontend:
           filters:
             branches:
-              only: ci-frontend
+              only: master
       - deploy-backend:
           filters:
             branches:
