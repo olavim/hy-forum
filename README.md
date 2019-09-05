@@ -4,6 +4,10 @@
 
 A database application made as a part of practical work assignment.
 
+---
+
+Available at https://hy-forum-frontend.herokuapp.com/
+
 # Description
 
 A slightly modified version of the example topic "Keskustelufoorumi".
