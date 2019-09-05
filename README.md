@@ -33,4 +33,4 @@ Actions (assuming admin privileges):
 
 # Documents
 
-- [Database relation diagram](docs/db-chart.png)
+- [Database relation diagram](documentation/db-chart.png)

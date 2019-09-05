@@ -10,7 +10,7 @@ deploy_defaults: &deploy_defaults
             .circleci/setup-heroku.sh
     - run:
         name: Build Docker image
-        command: docker build -t hy-forum-$SERVICE $SERVICE
+        command: docker build -t hy-forum-$SERVICE services/$SERVICE
     - run:
         name: Publish Docker image to Heroku
         command: |
@@ -47,4 +47,4 @@ workflows:
       - deploy-server:
           filters:
             branches:
-              only: server-ci
+              only: master
