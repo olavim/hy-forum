@@ -24,19 +24,19 @@ deploy_defaults: &deploy_defaults
 
 version: 2.1
 executors:
-  client-docker-publisher:
+  frontend-docker-publisher:
     environment:
-      SERVICE: client
+      SERVICE: frontend
     docker:
       - image: circleci/buildpack-deps:stretch
-  server-docker-publisher:
+  backend-docker-publisher:
     environment:
-      SERVICE: server
+      SERVICE: backend
     docker:
       - image: circleci/buildpack-deps:stretch
 
 jobs:
-  deploy-server:
+  deploy-backend:
     executor: server-docker-publisher
     <<: *deploy_defaults
 
@@ -44,7 +44,7 @@ workflows:
   version: 2
   build-n-deploy:
     jobs:
-      - deploy-server:
+      - deploy-backend:
           filters:
             branches:
               only: master

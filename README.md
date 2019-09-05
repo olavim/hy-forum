@@ -31,6 +31,12 @@ Actions (assuming admin privileges):
 - Create, edit, delete permission groups
 - Add user to permission group
 
-# Documents
+# Project structure
+
+The project is split into two subprojects: [backend](services/backend) and [frontend](services/frontend). Source code for these modules can be found in the [services](services) folder.
+
+The backend uses python and Flask, while the frontend uses JavaScript and React (and Node.js in webserver for ease of dependency management).
+
+# Documentation
 
 - [Database relation diagram](documentation/db-chart.png)
