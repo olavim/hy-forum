@@ -10,7 +10,7 @@ deploy_defaults: &deploy_defaults
             .circleci/setup-heroku.sh
     - run:
         name: Build Docker image
-        command: docker build -t olavim/hy-forum-$SERVICE -f ./$SERVICE/Dockerfile .
+        command: cd $SERVICE && docker build -t olavim/hy-forum-$SERVICE .
     - run:
         name: Publish Docker image to Heroku
         command: |
