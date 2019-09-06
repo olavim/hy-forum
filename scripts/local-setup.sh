@@ -7,5 +7,5 @@ ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/../ >/dev/null 2>&1 && pwd )"
 docker run -it --rm \
 	--mount "type=bind,src=$ROOT/services/backend,dst=/repo" \
 	sqitch/sqitch:latest \
-	--cd sqitch \
+	-C sqitch \
 	deploy local

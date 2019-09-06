@@ -39,7 +39,6 @@ executors:
   database-publisher:
     docker:
       - image: circleci/buildpack-deps:stretch
-      - image: sqitch/sqitch:latest
 
 jobs:
   deploy-frontend:
@@ -52,17 +51,15 @@ jobs:
     executor: database-publisher
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - *setup_heroku
       - run:
-          name: Set Sqitch target
-          command: echo "export SQITCH_TARGET=$(heroku config:get DATABASE_URL -a hy-forum-server)" >> $BASH_ENV
+          name: Install dependencies
+          command: sudo apt-get install sqitch libdbd-pg-perl postgresql-client
       - run:
           name: Deploy database
           command: |
             cd services/backend/sqitch
-            sqitch --cd services/backend/sqitch deploy pg
+            sqitch deploy db:$(heroku config:get DATABASE_URL -a hy-forum-backend)
 
 workflows:
   version: 2
