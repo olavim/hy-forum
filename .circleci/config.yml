@@ -30,15 +30,15 @@ executors:
     environment:
       SERVICE: frontend
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: olavim/ci-sqitch-heroku:latest
   backend-publisher:
     environment:
       SERVICE: backend
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: olavim/ci-sqitch-heroku:latest
   database-publisher:
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: olavim/ci-sqitch-heroku:latest
 
 jobs:
   deploy-frontend:
@@ -53,13 +53,11 @@ jobs:
       - checkout
       - *setup_heroku
       - run:
-          name: Install dependencies
-          command: sudo apt-get install sqitch libdbd-pg-perl postgresql-client
-      - run:
           name: Deploy database
           command: |
             cd services/backend/sqitch
-            sqitch deploy db:$(heroku config:get DATABASE_URL -a hy-forum-backend)
+            sqitch target alter remote --uri db:$(heroku config:get DATABASE_URL -a hy-forum-backend)
+            sqitch deploy remote
 
 workflows:
   version: 2
