@@ -1,13 +1,15 @@
+setup_heroku: &setup_heroku
+  run:
+    name: Setup Heroku
+    command: |
+        chmod +x .circleci/setup-heroku.sh
+        .circleci/setup-heroku.sh
 deploy_defaults: &deploy_defaults
   steps:
     - checkout
     - setup_remote_docker:
         docker_layer_caching: true
-    - run:
-        name: Setup Heroku
-        command: |
-            chmod +x .circleci/setup-heroku.sh
-            .circleci/setup-heroku.sh
+    - *setup_heroku
     - run:
         name: Build Docker image
         command: docker build -t hy-forum-$SERVICE services/$SERVICE
@@ -24,34 +26,56 @@ deploy_defaults: &deploy_defaults
 
 version: 2.1
 executors:
-  frontend-docker-publisher:
+  frontend-publisher:
     environment:
       SERVICE: frontend
     docker:
-      - image: circleci/buildpack-deps:stretch
-  backend-docker-publisher:
+      - image: olavim/ci-sqitch-heroku:latest
+  backend-publisher:
     environment:
       SERVICE: backend
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: olavim/ci-sqitch-heroku:latest
+  database-publisher:
+    docker:
+      - image: olavim/ci-sqitch-heroku:latest
 
 jobs:
   deploy-frontend:
-    executor: frontend-docker-publisher
+    executor: frontend-publisher
     <<: *deploy_defaults
   deploy-backend:
-    executor: backend-docker-publisher
+    executor: backend-publisher
     <<: *deploy_defaults
+  deploy-database:
+    executor: database-publisher
+    steps:
+      - checkout
+      - *setup_heroku
+      - run:
+          name: Deploy database
+          command: |
+            cd services/backend/sqitch
+            sqitch target alter remote --uri db:$(heroku config:get DATABASE_URL -a hy-forum-backend)
+            sqitch deploy remote
 
 workflows:
   version: 2
   build-n-deploy:
     jobs:
+      - deploy-database:
+          filters:
+            branches:
+              only: master
       - deploy-frontend:
+          requires:
+            - deploy-database
           filters:
             branches:
               only: master
       - deploy-backend:
+          requires:
+            - deploy-database
           filters:
             branches:
               only: master
