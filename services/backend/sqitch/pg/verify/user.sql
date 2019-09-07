@@ -2,6 +2,6 @@
 
 BEGIN;
 
-SELECT id, username, password, password_salt, created_at FROM forum.user WHERE FALSE;
+SELECT id, username, password_hash, created_at FROM forum.user WHERE FALSE;
 
 ROLLBACK;
