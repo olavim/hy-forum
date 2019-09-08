@@ -4,25 +4,6 @@ setup_heroku: &setup_heroku
     command: |
         chmod +x .circleci/setup-heroku.sh
         .circleci/setup-heroku.sh
-deploy_defaults: &deploy_defaults
-  steps:
-    - checkout
-    - setup_remote_docker:
-        docker_layer_caching: true
-    - *setup_heroku
-    - run:
-        name: Build Docker image
-        command: docker build -t hy-forum .
-    - run:
-        name: Publish Docker image to Heroku
-        command: |
-            echo "$HEROKU_API_KEY" | docker login -username=$HEROKU_USERNAME --password-stdin registry.heroku.com
-            docker tag hy-forum registry.heroku.com/hy-forum/web
-            docker push registry.heroku.com/hy-forum/web
-    - run:
-        name: Deploy to Heroku
-        command: |
-          heroku container:release web --app hy-forum
 
 version: 2.1
 executors:
@@ -33,7 +14,24 @@ executors:
 jobs:
   deploy-app:
     executor: app-publisher
-    <<: *deploy_defaults
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - *setup_heroku
+      - run:
+          name: Build Docker image
+          command: docker build -t hy-forum .
+      - run:
+          name: Publish Docker image to Heroku
+          command: |
+              echo "$HEROKU_API_KEY" | docker login -username=$HEROKU_USERNAME --password-stdin registry.heroku.com
+              docker tag hy-forum registry.heroku.com/hy-forum/web
+              docker push registry.heroku.com/hy-forum/web
+      - run:
+          name: Deploy to Heroku
+          command: |
+            heroku container:release web --app hy-forum
   deploy-database:
     executor: app-publisher
     steps:
