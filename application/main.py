@@ -10,8 +10,8 @@ app.config["SQLALCHEMY_ECHO"] = True
 
 db = SQLAlchemy(app)
 
-from .mod_users.controllers import mod_users as user_module
-app.register_blueprint(user_module)
+from .views.auth import mod as auth_module
+app.register_blueprint(auth_module)
 
 def start_server():
 	if config.env == 'development':
