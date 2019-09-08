@@ -1,10 +1,10 @@
 import os
 import bcrypt
-from flask import Flask, request, json
-from application.database.setup import db
-from application.database.models import User
+from flask import Blueprint, Response, request, json
+from application.main import db
+from .models import User
 
-app = Flask(__name__)
+mod_users = Blueprint('users', __name__, url_prefix='/users')
 
 def map_user(u):
 	return {
@@ -15,17 +15,13 @@ def map_user(u):
 	}
 
 def json_response(status, data):
-	return app.response_class(
+	return Response(
 		response=json.dumps(data),
 		status=status,
 		mimetype='application/json'
 	)
 
-@app.route('/')
-def root():
-	return 'Hello World'
-
-@app.route('/users', methods=['GET'])
+@mod_users.route('/', methods=['GET'])
 def list_users():
 	users = list(map(map_user, User.query.all()))
 	return json_response(200, {
@@ -33,12 +29,12 @@ def list_users():
 		'pageInfo': {'total': len(users)}
 	})
 
-@app.route('/users/<id>', methods=['GET'])
+@mod_users.route('/<id>', methods=['GET'])
 def get_user(id):
 	user = User.query.get(id)
 	return json_response(200, map_user(user))
 
-@app.route('/users', methods=['POST'])
+@mod_users.route('/', methods=['POST'])
 def create_user():
 	username = request.form.get('username')
 	password = request.form.get('password')
@@ -57,7 +53,7 @@ def create_user():
 
 	return json_response(200, map_user(user))
 
-@app.route('/users/<id>', methods=['DELETE'])
+@mod_users.route('/<id>', methods=['DELETE'])
 def delete_user(id):
 	user = User.query.get(id)
 	db.session().delete(user)

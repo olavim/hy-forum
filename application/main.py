@@ -1,23 +1,20 @@
-import application.settings
-import os
-import re
-from flask_cors import CORS
+from flask import Flask
 from waitress import serve
-from .api.routes import app
-from .database.setup import db
+from flask_sqlalchemy import SQLAlchemy
+import application.config as config
+
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = config.database_url
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_ECHO"] = True
+
+db = SQLAlchemy(app)
+
+from .mod_users.controllers import mod_users as user_module
+app.register_blueprint(user_module)
 
 def start_server():
-	app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DATABASE_URL')
-	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-	app.config["SQLALCHEMY_ECHO"] = True
-	db.init_app(app)
-
-	cors_origins_pattern = re.compile(os.getenv('CROSS_ORIGINS', '.*'))
-	CORS(app, resources={r'*': {'origins': cors_origins_pattern}})
-
-	port = os.getenv('PORT', '5000')
-
-	if os.getenv('FLASK_ENV', 'development') == 'development':
-		app.run(debug=True, port=port)
+	if config.env == 'development':
+		app.run(debug=True, port=config.server_port)
 	else:
-		serve(app, host='0.0.0.0', port=port)
+		serve(app, host='0.0.0.0', port=config.server_port)
