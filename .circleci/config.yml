@@ -53,7 +53,7 @@ workflows:
       - deploy-database:
           filters:
             tags:
-              only: /^production-.*/
+              only: /production/
             branches:
               only: /^master$/
       - deploy-app:
@@ -61,6 +61,6 @@ workflows:
             - deploy-database
           filters:
             tags:
-              only: /^production-.*/
+              only: /production/
             branches:
               only: /^master$/
