@@ -1,14 +1,11 @@
-from sqlalchemy import Column, Integer, String, TIMESTAMP, func
-from .setup import db
+from sqlalchemy import Column, String
+from .base import Base
 
-class User(db.Model):
+class User(Base):
 	__tablename__ = 'forum.user'
 
-	id = Column(Integer, primary_key=True, autoincrement=True)
 	username = Column(String(255), unique=True)
 	password_hash = Column(String(80))
-	created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
-	updated_at = Column(TIMESTAMP(timezone=True))
 
 	def __init__(self, username=None, password_hash=None):
 		self.username = username
