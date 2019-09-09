@@ -1,0 +1,14 @@
+{% extends "base.j2" %}
+{% block header %}
+	{% if user %}
+		{{ user.username }} |
+		<a href="{{ url_for('auth.logout') }}">Logout</a>
+	{% else %}
+		Not logged in
+		<a href="{{ url_for('auth.register') }}">Register</a> |
+		<a href="{{ url_for('auth.login') }}">Login</a>
+	{% endif %}
+{% endblock %}
+{% block content %}
+
+{% endblock %}

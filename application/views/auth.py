@@ -1,61 +1,46 @@
 import os
 import bcrypt
-from flask import Blueprint, Response, request, json
+from flask import Blueprint, request, json, session, redirect, url_for, g, render_template, flash
 from ..main import db
 from ..models.user import User
+from ..forms.auth import RegisterForm, LoginForm
 
-mod = Blueprint('users', __name__, url_prefix='/users')
+mod = Blueprint('auth', __name__, url_prefix='/')
 
-def map_user(u):
-	return {
-		'id': u.id,
-		'username': u.username,
-		'created_at': u.created_at.isoformat() if u.created_at != None else u.created_at,
-		'updated_at': u.updated_at.isoformat() if u.updated_at != None else u.updated_at
-	}
+@mod.before_request
+def before_request():
+	g.user = None
+	if 'user_id' in session:
+		g.user = User.query.get(session['user_id'])
 
-def json_response(status, data):
-	return Response(
-		response=json.dumps(data),
-		status=status,
-		mimetype='application/json'
-	)
+@mod.route('/login', methods=['GET', 'POST'])
+def login():
+	form = LoginForm(request.form)
+	if form.validate_on_submit():
+		user = User.query.filter_by(username=form.username.data).first()
+		if user and bcrypt.checkpw(form.password.data.encode('utf8'), user.password_hash):
+			session['user_id'] = user.id
+			return redirect(url_for('topics.home'))
+		flash('Wrong username or password', 'error-message')
 
-@mod.route('/', methods=['GET'])
-def list_users():
-	users = list(map(map_user, User.query.all()))
-	return json_response(200, {
-		'results': users,
-		'pageInfo': {'total': len(users)}
-	})
+	return render_template("auth/login.j2", form=form)
 
-@mod.route('/<id>', methods=['GET'])
-def get_user(id):
-	user = User.query.get(id)
-	return json_response(200, map_user(user))
+@mod.route('/logout', methods=['GET', 'POST'])
+def logout():
+	session.clear()
+	return redirect(url_for('topics.home'))
 
-@mod.route('/', methods=['POST'])
-def create_user():
-	username = request.form.get('username')
-	password = request.form.get('password')
+@mod.route('/register', methods=['GET', 'POST'])
+def register():
+	form = RegisterForm(request.form)
+	if form.validate_on_submit():
+		password_hash = bcrypt.hashpw(form.password.data.encode('utf8'), bcrypt.gensalt())
+		user = User(form.username.data, password_hash)
+		db.session().add(user)
+		db.session().commit()
 
-	if len(username) < 4:
-		return json_response(400, {'message': 'Username must be at least 4 characters'})
+		session['user_id'] = user.id
+		flash('Thanks for registering')
+		return redirect(url_for('topics.home'))
 
-	if len(password) < 4:
-		return json_response(400, {'message': 'Password must be at least 4 characters'})
-
-	pw_hash = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
-
-	user = User(username, pw_hash)
-	db.session().add(user)
-	db.session().commit()
-
-	return json_response(200, map_user(user))
-
-@mod.route('/<id>', methods=['DELETE'])
-def delete_user(id):
-	user = User.query.get(id)
-	db.session().delete(user)
-	db.session().commit()
-	return json_response(200, map_user(user))
+	return render_template("auth/register.j2", form=form)

@@ -4,14 +4,14 @@ from flask_sqlalchemy import SQLAlchemy
 import application.config as config
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = config.database_url
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["SQLALCHEMY_ECHO"] = True
+app.config.from_object(config)
 
 db = SQLAlchemy(app)
 
 from .views.auth import mod as auth_module
+from .views.topics import mod as topics_module
 app.register_blueprint(auth_module)
+app.register_blueprint(topics_module)
 
 def start_server():
 	if config.env == 'development':
