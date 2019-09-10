@@ -2,6 +2,6 @@
 
 BEGIN;
 
--- XXX Add DDLs here.
+PRAGMA foreign_keys = ON;
 
 COMMIT;

@@ -20,15 +20,15 @@ def login():
 		user = User.query.filter_by(username=form.username.data).first()
 		if user and bcrypt.checkpw(form.password.data.encode('utf8'), user.password_hash):
 			session['user_id'] = user.id
-			return redirect(url_for('topics.home'))
+			return redirect(url_for('topics.list'))
 		flash('Wrong username or password', 'error-message')
 
-	return render_template("auth/login.j2", form=form)
+	return render_template("auth/login.html", form=form)
 
 @mod.route('/logout', methods=['GET', 'POST'])
 def logout():
 	session.clear()
-	return redirect(url_for('topics.home'))
+	return redirect(url_for('topics.list'))
 
 @mod.route('/register', methods=['GET', 'POST'])
 def register():
@@ -41,6 +41,6 @@ def register():
 
 		session['user_id'] = user.id
 		flash('Thanks for registering')
-		return redirect(url_for('topics.home'))
+		return redirect(url_for('topics.list'))
 
-	return render_template("auth/register.j2", form=form)
+	return render_template("auth/register.html", form=form)

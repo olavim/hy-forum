@@ -1,6 +1,6 @@
-{% extends "base.j2" %}
+{% extends "base_auth.html" %}
 {% block content %}
-	{% from "forms/macros.j2" import render_field %}
+	{% from "forms/macros.html" import render_field %}
 	<form method="POST" class="form">
 		{{ form.csrf_token }}
 		{{ render_field(form.username, class="input text") }}

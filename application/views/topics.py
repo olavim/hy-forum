@@ -3,7 +3,8 @@ import bcrypt
 from flask import Blueprint, request, json, session, redirect, url_for, g, render_template, flash
 from ..main import db
 from ..models.user import User
-from ..forms.auth import RegisterForm, LoginForm
+from ..models.topic import Topic
+from ..forms.topic import TopicForm
 
 mod = Blueprint('topics', __name__, url_prefix='/')
 
@@ -14,5 +15,27 @@ def before_request():
 		g.user = User.query.get(session['user_id'])
 
 @mod.route('/', methods=['GET'])
-def home():
-	return render_template("topics/home.j2", user=g.user)
+@mod.route('/topics', methods=['GET'])
+def list():
+	topics = Topic.query.all()
+	return render_template("topics/list.html", user=g.user, topics=topics)
+
+@mod.route('/topics/<id>', methods=['DELETE'])
+def delete(id):
+	topic = Topic.query.get(id)
+	db.session().delete(topic)
+	db.session().commit()
+
+	return redirect(url_for('topics.list'))
+
+@mod.route('/topics/new', methods=['GET', 'POST'])
+def create():
+	form = TopicForm(request.form)
+	if form.validate_on_submit():
+		topic = Topic(title=form.title.data)
+		db.session().add(topic)
+		db.session().commit()
+
+		return redirect(url_for('topics.list'))
+
+	return render_template("topics/create.html", form=form, user=g.user)
