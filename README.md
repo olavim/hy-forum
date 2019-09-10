@@ -43,4 +43,4 @@ The backend uses python and Flask, while the frontend uses TypeScript and React 
 
 # Documentation
 
-- [Database relation diagram](documentation/db-chart.png)
+- [Database Relationship Diagram](documentation/db-diagram.png)
