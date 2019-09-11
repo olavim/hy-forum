@@ -17,4 +17,7 @@ docker run -it --rm --network host \
 	-v $ROOT:/app \
 	-u $(id -u ${USER}):$(id -g ${USER}) \
 	"${passopt[@]}" \
-	sqitch/sqitch:latest -C /app/services/backend/sqitch deploy local
+	sqitch/sqitch:latest -C /app/sqitch deploy local
+
+# Rename environment configuration file
+cp -n $ROOT/.env.dist $ROOT/.env
