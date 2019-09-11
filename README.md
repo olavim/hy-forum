@@ -40,3 +40,11 @@ $ python run.py
 
 - [Database Relationship Diagram](documentation/db-diagram.png)
 - [User Stories](documentation/user-stories.md)
+
+## For the reviewer
+
+Register as a new user and you can fiddle around as much as you want.
+
+You can alternatively login as the test user:
+- Username: test
+- Password: 1234
