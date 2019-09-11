@@ -43,8 +43,8 @@ $ python run.py
 
 ## For the reviewer
 
-Register as a new user and you can fiddle around as much as you want.
+[Register](https://hy-forum.herokuapp.com/register) as a new user and you can fiddle around as much as you want.
 
-You can alternatively login as the test user:
+You can alternatively [login](https://hy-forum.herokuapp.com/login) as the test user:
 - Username: test
 - Password: 1234
