@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE "forum.thread";
+DROP TABLE thread;
 
 COMMIT;

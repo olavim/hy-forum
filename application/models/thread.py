@@ -3,14 +3,14 @@ from sqlalchemy.orm import relationship
 from .base import Base
 
 class Thread(Base):
-	__tablename__ = 'forum.thread'
+	__tablename__ = 'thread'
 
 	title = Column(String(255))
-	topic_id = Column(Integer, ForeignKey('forum.topic.id'))
-	user_id = Column(Integer, ForeignKey('forum.user.id'))
+	topic_id = Column(Integer, Base.ForeignKey('topic.id'))
+	user_id = Column(Integer, Base.ForeignKey('user.id'))
 
-	user = relationship('user.User')
-	messages = relationship('message.Message')
+	user = relationship('User')
+	messages = relationship('Message')
 
 	def __init__(self, title=None, topic_id=None, user_id=None):
 		self.title = title

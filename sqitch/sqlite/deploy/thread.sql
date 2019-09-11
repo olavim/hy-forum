@@ -2,7 +2,7 @@
 
 BEGIN;
 
-CREATE TABLE "forum.thread" (
+CREATE TABLE thread (
 	id INTEGER PRIMARY KEY,
 	topic_id INTEGER NOT NULL,
 	user_id INTEGER NOT NULL,
@@ -10,8 +10,8 @@ CREATE TABLE "forum.thread" (
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP,
 
-	FOREIGN KEY(topic_id) REFERENCES "forum.topic"(id) ON DELETE CASCADE,
-	FOREIGN KEY(user_id) REFERENCES "forum.user"(id)
+	FOREIGN KEY(topic_id) REFERENCES topic(id) ON DELETE CASCADE,
+	FOREIGN KEY(user_id) REFERENCES user(id)
 );
 
 COMMIT;

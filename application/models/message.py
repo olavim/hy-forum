@@ -3,13 +3,13 @@ from sqlalchemy.orm import relationship
 from .base import Base
 
 class Message(Base):
-	__tablename__ = 'forum.message'
+	__tablename__ = 'message'
 
 	text = Column(Text)
-	thread_id = Column(Integer, ForeignKey('forum.thread.id'))
-	user_id = Column(Integer, ForeignKey('forum.user.id'))
+	thread_id = Column(Integer, Base.ForeignKey('thread.id'))
+	user_id = Column(Integer, Base.ForeignKey('user.id'))
 
-	user = relationship('user.User')
+	user = relationship('User')
 
 	def __init__(self, text=None, thread_id=None, user_id=None):
 		self.text = text

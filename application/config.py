@@ -4,6 +4,7 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 server_port = os.getenv('PORT', '5000')
 env = os.getenv('FLASK_ENV', 'development')
+database_schema = os.getenv('DATABASE_SCHEMA') or None
 
 DEBUG = False
 

@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP TABLE "forum.user";
+DROP TABLE user;
 
 COMMIT;

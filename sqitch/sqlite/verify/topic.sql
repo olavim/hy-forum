@@ -2,6 +2,6 @@
 
 BEGIN;
 
-SELECT id, title, created_at FROM "forum.topic" WHERE FALSE;
+SELECT id, title, created_at FROM topic WHERE FALSE;
 
 ROLLBACK;
