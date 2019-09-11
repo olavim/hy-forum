@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block contentheader %}
+<nav id="breadcrumbs">
+	<ol class="breadcrumb bg-transparent pl-3 pt-3 pr-3 pb-0 m-0 text-dark">
+		{% block breadcrumbs %}
+			<li class="breadcrumb-item">
+				<a href="{{ url_for('topics.list') }}">
+					<i class="mdi mdi-home"></i>
+					<label>Board index</label>
+				</a>
+			</li>
+			{% if topic %}
+			<li class="breadcrumb-item">
+				<a href="{{ url_for('threads.list', topic_id=topic.id) }}">
+					<label>{{ topic.title }}</label>
+				</a>
+			</li>
+			{% endif %}
+			{% if thread %}
+			<li class="breadcrumb-item">
+				<a href="{{ url_for('messages.list', topic_id=topic.id, thread_id=thread.id) }}">
+					<label>{{ thread.title }}</label>
+				</a>
+			</li>
+			{% endif %}
+		{% endblock %}
+	</ol>
+</nav>
+{% endblock %}

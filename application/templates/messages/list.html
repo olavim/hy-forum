@@ -1,21 +1,19 @@
-{% extends "base.html" %}
-{% block breadcrumbs %}
-	<a href="{{ url_for('topics.list') }}">Forum</a> /
-	<a href="{{ url_for('threads.list', topic_id=topic.id) }}">{{ topic.title }}</a> /
-	{{ thread.title }}
-{% endblock %}
+{% extends "base_default.html" %}
 {% block content %}
-	<div id="messages">
-		{% for message in messages %}
-			<div class="message-container">
-					<div class="message-user-info">
-						{{ message.user.username }}
-					</div>
-					<div class="message-text">
-						{{ message.text }}
-					</div>
-			</div>
-		{% endfor %}
+	<div id="messages" class="category">
+		<div class="header p-2 bg-white text-muted">{{ thread.title }}</div>
+		<div class="body p-2 bg-light">
+			{% for message in messages %}
+				<div class="message-container d-flex flex-row bg-white shadow-sm">
+						<div class="message-user-info p-2 pl-3 pr-3 border-right border-light">
+							{{ message.user.username }}
+						</div>
+						<div class="message-text p-2 pl-3 pr-3">
+							{{ message.text }}
+						</div>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 	{% if user %}
 		{% from "forms/macros.html" import render_field %}

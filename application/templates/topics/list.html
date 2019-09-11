@@ -1,14 +1,14 @@
-{% extends "base.html" %}
-{% block breadcrumbs %}
-	Forum
-{% endblock %}
+{% extends "base_default.html" %}
 {% block content %}
-	<div id="topics">
-		{% for topic in topics %}
-			<div class="topic">
-				<a href="{{ url_for('threads.list', topic_id=topic.id) }}">{{ topic.title }}</a>
-			</div>
-		{% endfor %}
+	<div id="topics" class="category rounded-lg overflow-hidden shadow-sm">
+		<div class="header p-2 bg-theme text-white">Topics</div>
+		<div class="body p-2 bg-light">
+			{% for topic in topics %}
+				<div class="category-item p-2 bg-white shadow-sm">
+					<a href="{{ url_for('threads.list', topic_id=topic.id) }}">{{ topic.title }}</a>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 	{% if user %}
 		<a href="{{ url_for('topics.create') }}">New Topic</a>

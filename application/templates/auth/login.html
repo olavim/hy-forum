@@ -1,4 +1,4 @@
-{% extends "base_auth.html" %}
+{% extends "base.html" %}
 {% block content %}
 	{% from "forms/macros.html" import render_field %}
 	<form method="POST" class="form">
@@ -7,5 +7,4 @@
 		{{ render_field(form.password, class="input text") }}
 		<input type="submit" value="Login" class="button green">
 	</form>
-	<a href="{{ url_for('auth.register') }}">Register</a>
 {% endblock %}

@@ -1,0 +1,92 @@
+/* bootstrap overrides */
+$spacer: 3rem;
+$breadcrumb-divider: quote('\2039');
+
+@import './vendor/bootstrap-4.3.1/bootstrap';
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
+
+html, body {
+	width: 100%;
+	height: 100%;
+	font-size: 62.5%;
+	font-family: 'Roboto', sans-serif;
+	background-color: #ffffff;
+}
+
+.navbar-brand, .nav-link {
+	color: #ffffff;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.38);
+	font-size: 1.4rem;
+	font-weight: 500;
+
+	.feather {
+		filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.38));
+	}
+
+	label {
+		margin: 0;
+	}
+
+	&:hover {
+		color: #ffffff;
+
+		label {
+			cursor: pointer;
+			text-decoration: underline;
+		}
+	}
+}
+
+.breadcrumb-item {
+	a {
+		color: #343a40;
+
+		&:hover {
+			text-decoration: none;
+
+			label {
+				cursor: pointer;
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+.border-light {
+	border-color: #efefef !important;
+}
+
+.bg-theme-gradient {
+	background: linear-gradient(90deg, #84baf3 0%, #33d6ca 100%);
+}
+
+.bg-theme {
+	background-color: #84baf3;
+}
+
+#content {
+	font-size: 1.2rem;
+	position: relative;
+	top: -1.5 * $spacer;
+}
+
+.category .header {
+	font-weight: 500;
+	font-size: 1.4rem;
+}
+
+#messages {
+	.header {
+		font-weight: 400;
+		font-size: 2.4rem;
+	}
+
+	.message-container:not(:first-child) {
+		margin-top: 0.25 * $spacer;
+	}
+
+	.message-user-info {
+		color: #cc5252;
+		font-size: 1.6rem;
+	}
+}

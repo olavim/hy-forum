@@ -19,6 +19,6 @@ app.register_blueprint(messages_module)
 
 def start_server():
 	if config.env == 'development':
-		app.run(debug=True, port=config.server_port)
+		app.run(debug=True, port=config.server_port, extra_files=config.reloader_extra_files)
 	else:
 		serve(app, host='0.0.0.0', port=config.server_port)
