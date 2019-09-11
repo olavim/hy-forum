@@ -1,57 +1,64 @@
-deploy_defaults: &deploy_defaults
-  steps:
-    - checkout
-    - setup_remote_docker:
-        docker_layer_caching: true
-    - run:
-        name: Setup Heroku
-        command: |
-            chmod +x .circleci/setup-heroku.sh
-            .circleci/setup-heroku.sh
-    - run:
-        name: Build Docker image
-        command: docker build -t hy-forum-$SERVICE services/$SERVICE
-    - run:
-        name: Publish Docker image to Heroku
-        command: |
-            echo "$HEROKU_API_KEY" | docker login -username=$HEROKU_USERNAME --password-stdin registry.heroku.com
-            docker tag hy-forum-$SERVICE registry.heroku.com/hy-forum-$SERVICE/web
-            docker push registry.heroku.com/hy-forum-$SERVICE/web
-    - run:
-        name: Deploy to Heroku
-        command: |
-          heroku container:release web --app hy-forum-$SERVICE
+setup_heroku: &setup_heroku
+  run:
+    name: Setup Heroku
+    command: |
+        chmod +x .circleci/setup-heroku.sh
+        .circleci/setup-heroku.sh
 
 version: 2.1
 executors:
-  frontend-docker-publisher:
-    environment:
-      SERVICE: frontend
+  app-publisher:
     docker:
-      - image: circleci/buildpack-deps:stretch
-  backend-docker-publisher:
-    environment:
-      SERVICE: backend
-    docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: olavim/ci-sqitch-heroku:latest
 
 jobs:
-  deploy-frontend:
-    executor: frontend-docker-publisher
-    <<: *deploy_defaults
-  deploy-backend:
-    executor: backend-docker-publisher
-    <<: *deploy_defaults
+  deploy-app:
+    executor: app-publisher
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - *setup_heroku
+      - run:
+          name: Build Docker image
+          command: docker build -t hy-forum .
+      - run:
+          name: Publish Docker image to Heroku
+          command: |
+              echo "$HEROKU_API_KEY" | docker login -username=$HEROKU_USERNAME --password-stdin registry.heroku.com
+              docker tag hy-forum registry.heroku.com/hy-forum/web
+              docker push registry.heroku.com/hy-forum/web
+      - run:
+          name: Deploy to Heroku
+          command: |
+            heroku container:release web --app hy-forum
+  deploy-database:
+    executor: app-publisher
+    steps:
+      - checkout
+      - *setup_heroku
+      - run:
+          name: Deploy database
+          command: |
+            cd sqitch
+            sqitch target alter remote --uri db:$(heroku config:get DATABASE_URL -a hy-forum)
+            sqitch deploy remote
 
 workflows:
   version: 2
   build-n-deploy:
     jobs:
-      - deploy-frontend:
+      - deploy-database:
           filters:
+            tags:
+              only: /production/
             branches:
-              only: master
-      - deploy-backend:
+              only: /^master$/
+      - deploy-app:
+          requires:
+            - deploy-database
           filters:
+            tags:
+              only: /production/
             branches:
-              only: master
+              only: /^master$/
