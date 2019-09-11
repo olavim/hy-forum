@@ -7,7 +7,7 @@ CREATE TABLE thread (
 	topic_id INTEGER NOT NULL,
 	user_id INTEGER NOT NULL,
 	title VARCHAR(255) NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	created_at TIMESTAMP DEFAULT (datetime('now','localtime')),
 	updated_at TIMESTAMP,
 
 	FOREIGN KEY(topic_id) REFERENCES topic(id) ON DELETE CASCADE,

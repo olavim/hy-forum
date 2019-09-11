@@ -7,7 +7,7 @@ CREATE TABLE message (
 	thread_id INTEGER NOT NULL,
 	user_id INTEGER NOT NULL,
 	text TEXT NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	created_at TIMESTAMP DEFAULT (datetime('now','localtime')),
 	updated_at TIMESTAMP,
 
 	FOREIGN KEY(thread_id) REFERENCES thread(id) ON DELETE CASCADE,
