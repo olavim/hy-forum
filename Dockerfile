@@ -1,13 +1,13 @@
-FROM python:3-alpine
+FROM olavim/python-libsass:1.0.0
+
+RUN apk update \
+	&& apk add --no-cache postgresql-dev libffi-dev
 
 WORKDIR /usr/src/app
 
 COPY run.py ./
 COPY requirements.txt ./
 COPY application ./application
-
-RUN apk update && \
-		apk add --virtual build-base gcc g++ postgresql-dev python3-dev musl-dev libffi-dev
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
