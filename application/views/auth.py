@@ -18,7 +18,7 @@ def login():
 	form = LoginForm(request.form)
 	if form.validate_on_submit():
 		user = User.query.filter_by(username=form.username.data).first()
-		if user and bcrypt.checkpw(form.password.data.encode('utf8'), user.password_hash):
+		if user and bcrypt.checkpw(form.password.data.encode('utf8'), user.password_hash.encode('utf8')):
 			session['user_id'] = user.id
 			return redirect(url_for('topics.list'))
 		flash('Wrong username or password', 'error-message')
