@@ -4,3 +4,6 @@ from wtforms.validators import Required
 
 class MessageForm(FlaskForm):
 	text = TextField('Text', [Required()])
+
+class EditMessageForm(FlaskForm):
+	text = TextField('Text', [Required()])

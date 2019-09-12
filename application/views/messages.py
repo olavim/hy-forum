@@ -6,7 +6,7 @@ from ..models.user import User
 from ..models.topic import Topic
 from ..models.thread import Thread
 from ..models.message import Message
-from ..forms.message import MessageForm
+from ..forms.message import MessageForm, EditMessageForm
 
 mod = Blueprint('messages', __name__, url_prefix='/topics/<topic_id>/threads/<thread_id>')
 
@@ -24,6 +24,7 @@ def before_request():
 		g.user = User.query.get(session['user_id'])
 
 @mod.route('/', methods=['GET', 'POST'])
+@mod.route('/messages', methods=['GET', 'POST'])
 def list():
 	form = MessageForm(request.form)
 	if form.validate_on_submit():
@@ -35,10 +36,23 @@ def list():
 
 	return render_template("messages/list.html", form=form, topic=g.topic, thread=g.thread, messages=g.thread.messages, user=g.user)
 
-@mod.route('/<id>', methods=['DELETE'])
+@mod.route('/messages/<id>/delete', methods=['POST'])
 def delete(id):
 	message = Message.query.get(id)
 	db.session().delete(message)
 	db.session().commit()
 
 	return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
+
+@mod.route('/messages/<id>/edit', methods=['GET', 'POST'])
+def edit(id):
+	message = Message.query.get(id)
+
+	form = EditMessageForm(request.form)
+	if form.validate_on_submit():
+		message.text = form.text.data
+		db.session().commit()
+
+		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
+
+	return render_template("messages/edit.html", form=form, message=message)

@@ -8,9 +8,22 @@
 						<div class="message-user-info pr-3">
 							{{ message.user.username }}
 						</div>
-						<div class="message-body flex-grow-1 pl-3 pr-3">
-							<div class="message-date pb-2 border-bottom border-light text-muted">
-									<span class="moment" data-timestamp="{{ message.created_at }}"></span>
+						<div class="message-body flex-grow-1 pl-3">
+							<div class="message-body-top d-flex flex-row justify-content-between pb-2 border-bottom border-light text-muted">
+									<span class="message-created-timestamp moment" data-timestamp="{{ message.created_at }}"></span>
+									{% if message.user.id == user.id %}
+									<div class="message-actions">
+										<a href="messages/{{ message.id }}/edit" class="icon-button mr-1" title="edit">
+											<i class="button mdi mdi-edit"></i>
+										</a>
+										<form method="POST" action="messages/{{ message.id }}/delete" class="form">
+											{{ form.csrf_token }}
+											<button type="submit" class="icon-button" title="delete">
+												<i class="button mdi mdi-delete"></i>
+											</button>
+										</form>
+									</div>
+									{% endif %}
 							</div>
 							<div class="message-text pt-2">
 								{{ message.text }}
