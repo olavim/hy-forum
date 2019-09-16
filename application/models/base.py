@@ -9,8 +9,8 @@ class Base(db.Model):
 	__table_args__ = {'schema': database_schema}
 
 	id = Column(Integer, primary_key=True, autoincrement=True)
-	created_at = Column(DateTime(True), server_default=utcnow())
-	updated_at = Column(DateTime(True), server_default=utcnow(), onupdate=utcnow())
+	created_at = Column(DateTime, server_default=utcnow())
+	updated_at = Column(DateTime, server_default=utcnow(), onupdate=utcnow())
 
 	@staticmethod
 	def ForeignKey(column):
