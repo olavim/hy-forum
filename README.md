@@ -16,21 +16,19 @@ Aims to be a simplistic Internet message board, where users can create message t
 
 # Testing locally
 
-**1.** Run local setup script to initialize SQLite database and create environment configuration file.
+**1.** Rename the environment configuration file and edit it to fit your needs.
 
 ```
-$ ./scripts/local-setup.sh
+$ cp .env.dist .env
 ```
 
-**2.** Edit the environment configuration file to fit your needs. The file is named `.env` and is created during the setup script.
-
-**3.** Install dependencies
+**2.** Install dependencies
 
 ```
 $ pip install -r requirements.txt
 ```
 
-**4.** Run the application
+**3.** Run the application
 
 ```
 $ python run.py
