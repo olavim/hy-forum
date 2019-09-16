@@ -17,6 +17,12 @@ app.register_blueprint(topics_module)
 app.register_blueprint(threads_module)
 app.register_blueprint(messages_module)
 
+import application.models.user
+import application.models.topic
+import application.models.thread
+import application.models.message
+db.create_all()
+
 def start_server():
 	if config.env == 'development':
 		app.run(debug=True, port=config.server_port, extra_files=config.reloader_extra_files)

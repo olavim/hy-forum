@@ -8,7 +8,7 @@ server_port = os.getenv('PORT', '5000')
 env = os.getenv('FLASK_ENV', 'development')
 database_schema = os.getenv('DATABASE_SCHEMA') or None
 
-DEBUG = False
+DEBUG = True
 
 SECRET_KEY = 'SecretKeyForSessionSigning'
 

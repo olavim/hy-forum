@@ -1,8 +1,0 @@
-%syntax-version=1.0.0
-%project=forum
-
-init 2019-09-06T10:39:38Z Olavi Mustanoja <olavi.mustanoja@kyyti.com> # Init database
-user 2019-09-06T11:21:39Z Olavi Mustanoja <olavi.mustanoja@kyyti.com> # Add user table
-topic 2019-09-09T20:29:01Z Olavi Mustanoja <olavi.mustanoja@kyyti.com> # Add topic table
-thread 2019-09-09T20:31:39Z Olavi Mustanoja <olavi.mustanoja@kyyti.com> # Add thread table
-message 2019-09-09T20:48:22Z Olavi Mustanoja <olavi.mustanoja@kyyti.com> # Add message table
