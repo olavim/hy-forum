@@ -9,9 +9,10 @@ app.config.from_object(config)
 
 db = SQLAlchemy(app)
 
+# Assets in static folder are cached pretty strongly, which is problematic for custom JS scripts.
+# We use Flask-Assets to solve this by combining these scripts and making them available in a build-specific URI.
 assets = Environment(app)
-
-js = Bundle('js/*', filters='jsmin', output='js/gen/bundle.js')
+js = Bundle('js/*', filters='rjsmin', output='js/gen/bundle.js')
 assets.register('js_all', js)
 
 from .views.auth import mod as auth_module
