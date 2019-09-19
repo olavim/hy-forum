@@ -40,7 +40,6 @@ def register():
 		db.session().commit()
 
 		session['user_id'] = user.id
-		flash('Thanks for registering')
 		return redirect(url_for('topics.list'))
 
 	return render_template("auth/register.html", form=form)
