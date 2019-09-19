@@ -1,12 +1,18 @@
 from flask import Flask
 from waitress import serve
 from flask_sqlalchemy import SQLAlchemy
+from flask_assets import Environment, Bundle
 import application.config as config
 
 app = Flask(__name__)
 app.config.from_object(config)
 
 db = SQLAlchemy(app)
+
+assets = Environment(app)
+
+js = Bundle('js/*', filters='jsmin', output='js/gen/bundle.js')
+assets.register('js_all', js)
 
 from .views.auth import mod as auth_module
 from .views.topics import mod as topics_module

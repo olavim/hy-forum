@@ -5,3 +5,5 @@ venv/
 *.db
 **/*.pyc
 application/static/css/
+application/static/js/gen/
+**/.webassets-cache/
