@@ -45,13 +45,6 @@
 			</ul>
 		</header>
 		{% endblock %}
-		<div id="messages-wrap">
-			<div id="messages">
-				{% for category, msg in get_flashed_messages(with_categories=true) %}
-					<p class="message flash-{{ category }}">{{ msg }}</p>
-				{% endfor %}
-			</div>
-		</div>
 		<div id="content" class="ml-4 mr-4 bg-white">
 			{% block contentheader %}{% endblock %}
 			<div id="content-body" class="p-3 shadow-sm">
