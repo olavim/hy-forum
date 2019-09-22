@@ -11,7 +11,8 @@ raw_db_path = os.getenv('DATABASE_URL')
 project_root = os.path.dirname(__file__)
 db_path = raw_db_path.replace('%PROJECT_ROOT%', project_root)
 
-DEBUG = True
+FLASK_ENV = env
+DEBUG = env == 'development'
 SECRET_KEY = 'SecretKeyForSessionSigning'
 SQLALCHEMY_DATABASE_URI = db_path
 SQLALCHEMY_TRACK_MODIFICATIONS = False
