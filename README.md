@@ -34,6 +34,16 @@ $ pip install -r requirements.txt
 $ python run.py
 ```
 
+# Database migrations
+
+The project uses [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/) for database migrations.
+
+To apply migrations to an existing database, simply run
+
+```
+$ python run.py db upgrade
+```
+
 # Documentation
 
 - [Database Relationship Diagram](documentation/db-diagram.png)

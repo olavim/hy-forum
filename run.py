@@ -1,6 +1,7 @@
 import os
+import sys
 import sass
-from application.main import start_server
+from application.main import manager, start_server
 
 sass_map = {'application/static/scss/default.scss': 'application/static/css/default.css'}
 
@@ -20,5 +21,9 @@ def build_styles():
 	compile_sass_to_css(sass_map)
 
 if __name__ == '__main__':
-	build_styles()
-	start_server()
+	# If first command line argument is 'db', we are working with migrations
+	if len(sys.argv) > 1 and sys.argv[1] == 'db':
+		manager.run()
+	else:
+		build_styles()
+		start_server()
