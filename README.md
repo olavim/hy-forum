@@ -38,10 +38,12 @@ $ python run.py
 
 The project uses [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/) for database migrations.
 
-To apply migrations to an existing database, simply run
+Migrations are run automatically when you run the application.
+
+To see available CLI commands, run
 
 ```
-$ python run.py db upgrade
+$ python run.py db --help
 ```
 
 # Documentation

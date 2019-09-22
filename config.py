@@ -7,9 +7,13 @@ server_port = os.getenv('PORT', '5000')
 env = os.getenv('FLASK_ENV', 'development')
 database_schema = os.getenv('DATABASE_SCHEMA') or None
 
+raw_db_path = os.getenv('DATABASE_URL')
+project_root = os.path.dirname(__file__)
+db_path = raw_db_path.replace('%PROJECT_ROOT%', project_root)
+
 DEBUG = True
 SECRET_KEY = 'SecretKeyForSessionSigning'
-SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+SQLALCHEMY_DATABASE_URI = db_path
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = False
 DATABASE_CONNECT_OPTIONS = {}

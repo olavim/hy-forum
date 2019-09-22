@@ -5,7 +5,21 @@
 		<div class="body p-2 bg-light">
 			{% for topic in topics %}
 				<div class="category-item p-2 bg-white shadow-sm">
-					<a href="{{ url_for('threads.list', topic_id=topic.id) }}">{{ topic.title }}</a>
+					<div class="category-display">
+						<div class="category-display-title">
+							<a href="{{ url_for('threads.list', topic_id=topic.id) }}">{{ topic.title }}</a>
+						</div>
+						<div class="category-display-description">
+							{{ topic.description }}
+						</div>
+					</div>
+					{% if user %}
+					<div class="category-actions">
+						<a href="topics/{{ topic.id }}/edit" class="icon-button mr-1" title="edit">
+							<i class="button mdi mdi-edit"></i>
+						</a>
+					</div>
+					{% endif %}
 				</div>
 			{% endfor %}
 		</div>
