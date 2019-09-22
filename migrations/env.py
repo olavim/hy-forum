@@ -17,21 +17,16 @@ config = context.config
 fileConfig(config.config_file_name)
 logger = logging.getLogger('alembic.env')
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
+import sys, os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
+import config as forum_config
+
 from flask import current_app
 config.set_main_option(
     'sqlalchemy.url', current_app.config.get(
         'SQLALCHEMY_DATABASE_URI').replace('%', '%%'))
 target_metadata = current_app.extensions['migrate'].db.metadata
-
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
-
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
@@ -87,6 +82,8 @@ def run_migrations_online():
         )
 
         with context.begin_transaction():
+            if forum_config.database_schema:
+                context.execute('SET search_path TO {0}'.format(forum_config.database_schema))
             context.run_migrations()
 
 
