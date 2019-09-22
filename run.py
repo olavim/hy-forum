@@ -4,6 +4,7 @@ import sass
 import config
 import traceback
 import logging
+import click
 from werkzeug.serving import is_running_from_reloader
 from application.main import app, db, manager
 from flask_migrate import upgrade, stamp, current
@@ -30,9 +31,15 @@ def compile_sass_to_css(sass_map):
 
 		print('%s compiled to %s' % (source, dest))
 
-def build_styles():
-	log_section('Build styles')
-	compile_sass_to_css(sass_map)
+def start_server():
+	log_section('Start HTTP server')
+	print('Starting server on port {0}'.format(config.server_port))
+
+	if config.env == 'development':
+		app.run(debug=True, port=config.server_port, extra_files=config.reloader_extra_files)
+	else:
+		from waitress import serve
+		serve(app, host='0.0.0.0', port=config.server_port)
 
 def upgrade_db(first_attempt=True):
 	try:
@@ -46,7 +53,7 @@ def upgrade_db(first_attempt=True):
 			# This is likely due to the developer having a version of the database from before Flask-Migrate
 			# was introduced to the project.
 			#
-			# Try to automatically resolve this by telling alembic (the migration tool Flask-Migrate is based on)
+			# We try to automatically resolve this by telling alembic (the migration tool Flask-Migrate is based on)
 			# that this database equates to the first revision, and then try the migration again.
 			print('Retrying migration after stamping database with baseline revision')
 			stamp(revision='baseline')
@@ -60,26 +67,38 @@ def migrate_db(first_attempt=True):
 	with app.app_context():
 		upgrade_db()
 
-def start_server():
-	log_section('Start HTTP server')
-	print('Starting server on port {0}'.format(config.server_port))
+def build_styles():
+	log_section('Build styles')
+	compile_sass_to_css(sass_map)
 
-	if config.env == 'development':
-		app.run(debug=True, port=config.server_port, extra_files=config.reloader_extra_files)
-	else:
-		from waitress import serve
-		serve(app, host='0.0.0.0', port=config.server_port)
+def main(no_migrations=False, no_assets=False, no_run=False):
+	if is_running_from_reloader():
+		log_section('Reloading application...', True, False)
+
+	if not no_migrations and not is_running_from_reloader():
+		migrate_db()
+
+	if not no_assets:
+		build_styles()
+
+	if not no_run:
+		start_server()
+
+@click.group(invoke_without_command=True)
+@click.option('--no-migrations', is_flag=True, help='Don\'t run database migrations')
+@click.option('--no-assets', is_flag=True, help='Don\'t build static assets')
+@click.option('--no-run', is_flag=True, help='Don\'t run HTTP server')
+@click.pass_context
+def cli(ctx, no_migrations=False, no_assets=False, no_run=False):
+	if ctx.invoked_subcommand is None:
+		main(no_migrations, no_assets, no_run)
+
+ctx_ignore = dict(ignore_unknown_options=True, allow_extra_args=True)
+
+@cli.command('db', context_settings=ctx_ignore, help='Flask-Migrate CLI')
+@click.option('--help', is_flag=True)
+def flask_migrate(help):
+	manager.run()
 
 if __name__ == '__main__':
-	# Run Flask-Migrate CLI if the first command line argument is 'db'
-	if len(sys.argv) > 1 and sys.argv[1] == 'db':
-		manager.run()
-	else:
-		if is_running_from_reloader():
-			log_section('Reloading server...', True, False)
-
-		if not is_running_from_reloader():
-			migrate_db()
-
-		build_styles()
-		start_server()
+	cli() # pylint: disable=no-value-for-parameter
