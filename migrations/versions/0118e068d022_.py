@@ -7,6 +7,7 @@ Create Date: 2019-09-22 16:17:33.438414
 """
 from alembic import op
 import sqlalchemy as sa
+from config import database_schema
 
 
 # revision identifiers, used by Alembic.
@@ -17,9 +18,9 @@ depends_on = None
 
 
 def upgrade():
-    op.add_column('topic', sa.Column('description', sa.String(length=255), nullable=True))
+    op.add_column('topic', sa.Column('description', sa.String(length=255), nullable=True), database_schema)
 
 
 def downgrade():
-    with op.batch_alter_table('topic') as batch_op:
+    with op.batch_alter_table('topic', database_schema) as batch_op:
         batch_op.drop_column('description')
