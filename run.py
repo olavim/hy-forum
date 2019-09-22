@@ -2,8 +2,9 @@ import os
 import sys
 import sass
 import config
+import traceback
+import logging
 from werkzeug.serving import is_running_from_reloader
-from sqlalchemy.exc import OperationalError
 from application.main import app, db, manager
 from flask_migrate import upgrade, stamp, current
 
@@ -36,12 +37,10 @@ def build_styles():
 def upgrade_db(first_attempt=True):
 	try:
 		upgrade()
-	except OperationalError as e:
-		error = 'Error: Could not run migrations: {0}'.format(e.__dict__['orig'])
+	except Exception:
+		print('Error: Could not run migrations')
 
 		if first_attempt and current() == None:
-			print(error)
-
 			# The migrations failed and the database has no record of past migrations.
 			#
 			# This is likely due to the developer having a version of the database from before Flask-Migrate
@@ -53,7 +52,8 @@ def upgrade_db(first_attempt=True):
 			stamp(revision='baseline')
 			upgrade_db(False)
 		else:
-			sys.exit(error)
+			logging.error(traceback.format_exc())
+			raise
 
 def migrate_db(first_attempt=True):
 	log_section('Run database migrations')
