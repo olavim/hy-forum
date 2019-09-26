@@ -25,8 +25,9 @@ class Topic(Base):
 		stmt = text('SELECT COUNT(thread.id) '
 								'FROM topic '
 								'LEFT JOIN thread ON thread.topic_id = topic.id '
-								'WHERE topic.id = :id').params(id=self.id)
-		res = db.engine.execute(stmt).fetchone()
+								'WHERE topic.id = :id')
+
+		res = db.engine.execute(stmt, id=self.id).fetchone()
 		return res[0]
 
 	def total_messages(self):
@@ -34,8 +35,9 @@ class Topic(Base):
 								'FROM topic '
 								'LEFT JOIN thread ON thread.topic_id = topic.id '
 								'LEFT JOIN message ON message.thread_id = thread.id '
-								'WHERE topic.id = :id').params(id=self.id)
-		res = db.engine.execute(stmt).fetchone()
+								'WHERE topic.id = :id')
+
+		res = db.engine.execute(stmt, id=self.id).fetchone()
 		return res[0]
 
 	def latest_message(self):

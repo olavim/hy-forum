@@ -6,8 +6,8 @@ class Message(Base):
 	__tablename__ = 'message'
 
 	text = Column(Text)
-	thread_id = Column(Integer, Base.ForeignKey('thread.id'))
-	user_id = Column(Integer, Base.ForeignKey('user.id'))
+	thread_id = Column(Integer, ForeignKey('thread.id'))
+	user_id = Column(Integer, ForeignKey('user.id'))
 
 	thread = relationship('Thread')
 	user = relationship('User')

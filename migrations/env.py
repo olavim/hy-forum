@@ -82,8 +82,6 @@ def run_migrations_online():
         )
 
         with context.begin_transaction():
-            if forum_config.database_schema:
-                context.execute('SET search_path TO {0}'.format(forum_config.database_schema))
             context.run_migrations()
 
 

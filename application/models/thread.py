@@ -9,8 +9,8 @@ class Thread(Base):
 	__tablename__ = 'thread'
 
 	title = Column(String(255))
-	topic_id = Column(Integer, Base.ForeignKey('topic.id'))
-	user_id = Column(Integer, Base.ForeignKey('user.id'))
+	topic_id = Column(Integer, ForeignKey('topic.id'))
+	user_id = Column(Integer, ForeignKey('user.id'))
 
 	user = relationship('User')
 	messages = relationship('Message')

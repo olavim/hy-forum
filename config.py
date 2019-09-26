@@ -5,7 +5,6 @@ reloader_extra_files = ['application/static/scss/default.scss']
 load_dotenv(find_dotenv())
 server_port = os.getenv('PORT', '5000')
 env = os.getenv('FLASK_ENV', 'development')
-database_schema = os.getenv('DATABASE_SCHEMA') or None
 
 raw_db_path = os.getenv('DATABASE_URL')
 project_root = os.path.dirname(__file__)
