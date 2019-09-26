@@ -34,7 +34,7 @@ def list():
 
 		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
 
-	return render_template("messages/list.html", form=form, topic=g.topic, thread=g.thread, messages=g.thread.messages, user=g.user)
+	return render_template('messages/list.html', form=form, topic=g.topic, thread=g.thread, messages=g.thread.messages, user=g.user)
 
 @mod.route('/messages/<id>/delete', methods=['POST'])
 def delete(id):
@@ -55,4 +55,4 @@ def edit(id):
 
 		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
 
-	return render_template("messages/edit.html", form=form, message=message)
+	return render_template('messages/edit.html', form=form, message=message)

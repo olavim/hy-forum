@@ -12,4 +12,4 @@ class User(Base):
 		self.password_hash = password_hash
 
 	def __repr__(self):
-		return '<User %r>' % (self.username)
+		return '<User id=%r username=%r>' % (self.id, self.username)

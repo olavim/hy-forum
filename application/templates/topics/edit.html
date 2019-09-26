@@ -1,0 +1,10 @@
+{% extends "base_default.html" %}
+{% block content %}
+	{% from "forms/macros.html" import render_field %}
+	<form method="POST" class="form">
+		{{ form.csrf_token }}
+		{{ render_field(form.title, class="input text", value=topic.title) }}
+		{{ render_field(form.description, class="input text", value=topic.description) }}
+		<input type="submit" value="Submit" class="button green">
+	</form>
+{% endblock %}

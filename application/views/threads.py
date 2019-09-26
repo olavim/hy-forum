@@ -22,7 +22,7 @@ def before_request():
 
 @mod.route('/', methods=['GET'])
 def list():
-	return render_template("threads/list.html", topic=g.topic, threads=g.topic.threads, user=g.user)
+	return render_template('threads/list.html', topic=g.topic, threads=g.topic.threads, user=g.user)
 
 @mod.route('/<id>', methods=['DELETE'])
 def delete(id):
@@ -42,4 +42,4 @@ def create():
 
 		return redirect(url_for('threads.list', topic_id=g.topic.id))
 
-	return render_template("threads/create.html", form=form, user=g.user)
+	return render_template('threads/create.html', form=form, user=g.user)

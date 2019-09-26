@@ -4,3 +4,4 @@ from wtforms.validators import Required
 
 class TopicForm(FlaskForm):
 	title = TextField('Title', [Required()])
+	description = TextField('Description', [Required()])

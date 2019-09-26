@@ -4,7 +4,10 @@
 		<div class="header p-2 bg-theme text-white">Topics</div>
 		<div class="body p-2 bg-light">
 			{% for topic in topics %}
-				<div class="category-item p-2 bg-white shadow-sm">
+				<div class="category-item p-2 bg-white shadow-sm d-flex flex-row">
+					<div class="category-icon">
+							<i class="mdi mdi-folder-open"></i>
+					</div>
 					<div class="category-display">
 						<div class="category-display-title">
 							<a href="{{ url_for('threads.list', topic_id=topic.id) }}">{{ topic.title }}</a>
@@ -13,9 +16,30 @@
 							{{ topic.description }}
 						</div>
 					</div>
+					<div class="category-metrics">
+						<div class="category-metrics-item">
+							<span>{{ topic.total_threads() }}</span>
+							<label>Threads</label>
+						</div>
+						<div class="category-metrics-item">
+							<span>{{ topic.total_messages() }}</span>
+							<label>Messages</label>
+						</div>
+					</div>
+					<div class="category-latest-message">
+						{% set message = topic.latest_message() %}
+						{% if message %}
+							<div class="category-latest-message-username">
+								by <a href="#">{{ message.user.username }}</a>
+							</div>
+							<div class="category-latest-message-timestamp" data-timestamp="{{ message.created_at }}"></div>
+						{% else %}
+							<div>No messages</div>
+						{% endif %}
+					</div>
 					{% if user %}
 					<div class="category-actions">
-						<a href="topics/{{ topic.id }}/edit" class="icon-button mr-1" title="edit">
+						<a href="topics/{{ topic.id }}/edit" class="icon-button" title="edit">
 							<i class="button mdi mdi-edit"></i>
 						</a>
 					</div>

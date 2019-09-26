@@ -18,7 +18,7 @@ def before_request():
 @mod.route('/topics', methods=['GET'])
 def list():
 	topics = Topic.query.all()
-	return render_template("topics/list.html", user=g.user, topics=topics)
+	return render_template('topics/list.html', user=g.user, topics=topics)
 
 @mod.route('/topics/<id>', methods=['DELETE'])
 def delete(id):
@@ -32,10 +32,24 @@ def delete(id):
 def create():
 	form = TopicForm(request.form)
 	if form.validate_on_submit():
-		topic = Topic(title=form.title.data)
+		topic = Topic(title=form.title.data, description=form.description.data)
 		db.session().add(topic)
 		db.session().commit()
 
 		return redirect(url_for('topics.list'))
 
-	return render_template("topics/create.html", form=form, user=g.user)
+	return render_template('topics/create.html', form=form, user=g.user)
+
+@mod.route('/topics/<id>/edit', methods=['GET', 'POST'])
+def edit(id):
+	topic = Topic.query.get(id)
+
+	form = TopicForm(request.form)
+	if form.validate_on_submit():
+		topic.title = form.title.data
+		topic.description = form.description.data
+		db.session().commit()
+
+		return redirect(url_for('topics.list'))
+
+	return render_template('topics/edit.html', form=form, topic=topic)

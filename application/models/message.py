@@ -9,6 +9,7 @@ class Message(Base):
 	thread_id = Column(Integer, Base.ForeignKey('thread.id'))
 	user_id = Column(Integer, Base.ForeignKey('user.id'))
 
+	thread = relationship('Thread')
 	user = relationship('User')
 
 	def __init__(self, text=None, thread_id=None, user_id=None):
@@ -17,4 +18,4 @@ class Message(Base):
 		self.user_id = user_id
 
 	def __repr__(self):
-		return '<Message>'
+		return '<Message id=%r thread_id=%r user_id=%r>' % (self.id, self.thread_id, self.user_id)

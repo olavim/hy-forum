@@ -23,7 +23,7 @@ def login():
 			return redirect(url_for('topics.list'))
 		flash('Wrong username or password', 'error-message')
 
-	return render_template("auth/login.html", form=form)
+	return render_template('auth/login.html', form=form)
 
 @mod.route('/logout', methods=['GET', 'POST'])
 def logout():
@@ -42,4 +42,4 @@ def register():
 		session['user_id'] = user.id
 		return redirect(url_for('topics.list'))
 
-	return render_template("auth/register.html", form=form)
+	return render_template('auth/register.html', form=form)

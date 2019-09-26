@@ -1,6 +1,9 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import text
+from ..main import db
 from .base import Base
+from .message import Message
 
 class Thread(Base):
 	__tablename__ = 'thread'
@@ -18,4 +21,20 @@ class Thread(Base):
 		self.user_id = user_id
 
 	def __repr__(self):
-		return '<Thread %r>' % (self.title)
+		return '<Thread id=%r title=%r topic_id=%r user_id=%r>' \
+			% (self.id, self.title, self.topic_id, self.user_id)
+
+	def total_messages(self):
+		stmt = text('SELECT COUNT(message.id) '
+								'FROM thread '
+								'LEFT JOIN message ON message.thread_id = thread.id '
+								'WHERE thread.id = :id').params(id=self.id)
+		res = db.engine.execute(stmt).fetchone()
+		return res[0]
+
+	def latest_message(self):
+		message = Message.query \
+			.filter(Message.thread_id == self.id) \
+			.order_by(Message.created_at.desc()) \
+			.first()
+		return message
