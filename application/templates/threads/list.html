@@ -1,45 +1,47 @@
-{% extends "base_default.html" %}
+{% extends "base_breadcrumbs.html" %}
 {% block content %}
-	<div id="threads" class="category rounded-lg overflow-hidden shadow-sm">
-		<div class="header p-2 bg-theme text-white">Threads</div>
-		<div class="body p-2 bg-light">
-			{% for thread in threads %}
-				<div class="category-item p-2 bg-white shadow-sm">
-					<div class="category-icon">
-							<i class="mdi mdi-chat-bubble-outline"></i>
+	<div id="threads" class="category rounded-lg overflow-hidden shadow-sm bg-white">
+		<div class="category-header p-2 text-muted">
+			<div class="info">Threads</div>
+			<div class="metrics-item">Messages</div>
+			<div class="latest-message">Last message</div>
+			{% if user %}
+			<div class="actions"></div>
+			{% endif %}
+		</div>
+		{% for thread in threads %}
+			<div class="category-item">
+				<div class="info">
+					<div class="icon">
+						<i class="mdi mdi-folder-open"></i>
 					</div>
-					<div class="category-display">
-						<div class="category-display-title">
-							<a href="{{ url_for('messages.list', topic_id=topic.id, thread_id=thread.id) }}">
-								{{ thread.title }}
-							</a>
+					<div class="title">
+						<a href="{{ url_for('messages.list', topic_id=topic.id, thread_id=thread.id) }}">
+							{{ thread.title }}
+						</a>
+					</div>
+				</div>
+				<div class="metrics">
+					<div class="metrics-item">{{ topic.total_messages() }}</div>
+				</div>
+				<div class="latest-message">
+					{% set message = thread.latest_message() %}
+					{% if message %}
+						<div class="latest-message-username">
+							by <a href="#">{{ message.user.username }}</a>
 						</div>
-					</div>
-					<div class="category-metrics">
-						<div class="category-metrics-item">
-							<span>{{ thread.total_messages() }}</span>
-							<label>Messages</label>
-						</div>
-					</div>
-					<div class="category-latest-message">
-						{% set message = thread.latest_message() %}
-						{% if message %}
-							<div class="category-latest-message-username">
-								by <a href="#">{{ message.user.username }}</a>
-							</div>
-							<div class="category-latest-message-timestamp" data-timestamp="{{ message.created_at }}"></div>
-						{% else %}
-							<div>No messages</div>
-						{% endif %}
-					</div>
-					{% if user %}
-					<div class="category-actions"></div>
+						<div class="latest-message-timestamp" data-timestamp="{{ message.created_at }}"></div>
+					{% else %}
+						<div>No messages</div>
 					{% endif %}
 				</div>
-			{% endfor %}
-		</div>
+				{% if user %}
+				<div class="actions"></div>
+				{% endif %}
+			</div>
+		{% endfor %}
 	</div>
 	{% if user %}
-		<a href="{{ url_for('threads.create', topic_id=topic.id) }}">New Thread</a>
+		<a class="btn btn-primary mt-3" href="{{ url_for('threads.create', topic_id=topic.id) }}">New Thread</a>
 	{% endif %}
 {% endblock %}

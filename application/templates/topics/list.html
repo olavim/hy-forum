@@ -1,54 +1,56 @@
-{% extends "base_default.html" %}
+{% extends "base_breadcrumbs.html" %}
 {% block content %}
-	<div id="topics" class="category rounded-lg overflow-hidden shadow-sm">
-		<div class="header p-2 bg-theme text-white">Topics</div>
-		<div class="body p-2 bg-light">
-			{% for topic in topics %}
-				<div class="category-item p-2 bg-white shadow-sm d-flex flex-row">
-					<div class="category-icon">
-							<i class="mdi mdi-folder-open"></i>
+	<div id="topics" class="category rounded-lg overflow-hidden shadow-sm bg-white">
+		<div class="category-header p-2 text-muted">
+			<div class="info">Topics</div>
+			<div class="metrics-item">Threads</div>
+			<div class="metrics-item">Messages</div>
+			<div class="latest-message">Last message</div>
+			{% if user %}
+			<div class="actions"></div>
+			{% endif %}
+		</div>
+		{% for topic in topics %}
+			<div class="category-item">
+				<div class="info">
+					<div class="icon">
+						<i class="mdi mdi-folder-open"></i>
 					</div>
-					<div class="category-display">
-						<div class="category-display-title">
+					<div>
+						<div class="title">
 							<a href="{{ url_for('threads.list', topic_id=topic.id) }}">{{ topic.title }}</a>
 						</div>
-						<div class="category-display-description">
+						<div class="description">
 							{{ topic.description }}
 						</div>
 					</div>
-					<div class="category-metrics">
-						<div class="category-metrics-item">
-							<span>{{ topic.total_threads() }}</span>
-							<label>Threads</label>
+				</div>
+				<div class="metrics">
+					<div class="metrics-item">{{ topic.total_threads() }}</div>
+					<div class="metrics-item">{{ topic.total_messages() }}</div>
+				</div>
+				<div class="latest-message">
+					{% set message = topic.latest_message() %}
+					{% if message %}
+						<div class="latest-message-username">
+							by <a href="#">{{ message.user.username }}</a>
 						</div>
-						<div class="category-metrics-item">
-							<span>{{ topic.total_messages() }}</span>
-							<label>Messages</label>
-						</div>
-					</div>
-					<div class="category-latest-message">
-						{% set message = topic.latest_message() %}
-						{% if message %}
-							<div class="category-latest-message-username">
-								by <a href="#">{{ message.user.username }}</a>
-							</div>
-							<div class="category-latest-message-timestamp" data-timestamp="{{ message.created_at }}"></div>
-						{% else %}
-							<div>No messages</div>
-						{% endif %}
-					</div>
-					{% if user %}
-					<div class="category-actions">
-						<a href="topics/{{ topic.id }}/edit" class="icon-button" title="edit">
-							<i class="button mdi mdi-edit"></i>
-						</a>
-					</div>
+						<div class="latest-message-timestamp" data-timestamp="{{ message.created_at }}"></div>
+					{% else %}
+						<div>No messages</div>
 					{% endif %}
 				</div>
-			{% endfor %}
-		</div>
+				{% if user %}
+				<div class="actions">
+					<a href="topics/{{ topic.id }}/edit" class="icon-button" title="edit">
+						<i class="button mdi mdi-edit"></i>
+					</a>
+				</div>
+				{% endif %}
+			</div>
+		{% endfor %}
 	</div>
 	{% if user %}
-		<a href="{{ url_for('topics.create') }}">New Topic</a>
+		<a class="btn btn-primary mt-3" href="{{ url_for('topics.create') }}">New Topic</a>
 	{% endif %}
 {% endblock %}

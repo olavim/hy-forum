@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block contentheader %}
-<nav id="breadcrumbs">
-	<ol class="breadcrumb bg-transparent pl-3 pt-3 pr-3 pb-0 m-0 text-dark">
+<nav id="breadcrumbs" class="mb-3 bg-white shadow-sm rounded-lg">
+	<ol class="breadcrumb p-2 m-0 text-dark bg-transparent border-bottom border-light">
 		{% block breadcrumbs %}
 			<li class="breadcrumb-item">
 				<a href="{{ url_for('topics.list') }}">
@@ -25,5 +25,9 @@
 			{% endif %}
 		{% endblock %}
 	</ol>
+	<div class="p-2 text-muted">
+		<span>It is currently</span>
+		<span data-timestamp="now"></span>
+	</div>
 </nav>
 {% endblock %}

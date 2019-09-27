@@ -7,7 +7,8 @@ function renderEach(selector, cb) {
 }
 
 function utcToLocalCalendar(timestamp) {
-	return moment.utc(timestamp).tz(tz).calendar();
+	const m = timestamp === 'now' ? moment() : moment.utc(timestamp);
+	return m.tz(tz).format('MMM Do YYYY, HH:mm');
 }
 
 $(document).ready(function () {

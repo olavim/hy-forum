@@ -2,6 +2,8 @@
 $spacer: 3rem;
 $breadcrumb-divider: quote('\2039');
 
+$primary: #62a0e0;
+
 @import './vendor/bootstrap-4.3.1/bootstrap';
 @import './vendor/material-design-icons-2.2.0/material-icons';
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
@@ -36,6 +38,14 @@ html, body {
 			text-decoration: underline;
 		}
 	}
+}
+
+.btn {
+	font-size: 1.2rem;
+}
+
+label {
+	margin-bottom: 0;
 }
 
 .breadcrumb-item {
@@ -92,109 +102,137 @@ html, body {
 #content {
 	font-size: 1.2rem;
 	position: relative;
-	top: -1.5 * $spacer;
+	top: -4.8rem;
 }
 
-.category .header {
-	font-weight: 500;
-	font-size: 1.4rem;
-}
-
-.category-item {
-	height: 7rem;
-
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-
-	&:not(:first-child) {
-		margin-top: $spacer * 0.25;
-	}
-}
-
-.category-icon {
-	display: flex;
-	align-items: center;
-
-	font-size: 3rem;
-	color: rgba(0, 0, 0, 0.1);
-	padding-left: $spacer * 0.25;
-	padding-right: $spacer * 0.75;
-}
-
-.category-display {
-	display: flex;
-	flex-direction: column;
-	flex: 1 1 auto;
-}
-
-.category-display-title a {
-	font-weight: 400;
-	font-size: 1.5rem;
-	color: #5285bb;
-}
-
-.category-display-description {
-	font-weight: 400;
-	font-size: 1.2rem;
-	color: rgba(0, 0, 0, 0.7);
-}
-
-.category-metrics {
-	display: flex;
-	flex-direction: row;
-}
-
-.category-metrics-item {
-	color: rgba(0, 0, 0, 0.7);
-	padding-left: $spacer;
-	padding-right: $spacer;
-
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-
-	span {
-		font-size: 1.4rem;
+.category {
+	.info {
+		flex: 1 1 auto;
+		min-width: 12rem;
 	}
 
-	label {
-		font-size: 1.1rem;
-		text-transform: uppercase;
-		margin-bottom: 0;
+	.metrics-item {
+		width: $spacer * 3;
+		min-width: $spacer * 3;
 	}
-}
 
-.category-latest-message {
-	width: 24rem;
-	padding-left: $spacer;
-	padding-right: $spacer;
+	.latest-message {
+		width: 24rem;
+		padding-left: $spacer;
+		padding-right: $spacer;
+		min-width: 18rem;
+	}
 
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: flex-start;
+	.actions {
+		width: 7rem;
+		padding-left: $spacer;
+		padding-right: $spacer * 0.5;
+	}
 
-	font-size: 1.2rem;
-	color: rgba(0, 0, 0, 0.7);
-}
-
-.category-latest-message-username {
-	a {
+	.category-header {
 		font-weight: 500;
+		font-size: 1.4rem;
+
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		.metrics-item {
+			display: flex;
+			justify-content: center;
+			font-weight: 400;
+		}
+
+		.latest-message {
+			font-weight: 400;
+		}
 	}
-}
 
-.category-actions {
-	width: 7rem;
-	padding-left: $spacer;
-	padding-right: $spacer * 0.5;
+	.category-item {
+		height: 7rem;
 
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		background-color: $white;
+		padding: $spacer * 0.5;
+
+		&:not(:first-child) {
+			border-top: 1px solid $gray-200;
+		}
+
+		.info {
+			display: flex;
+			flex-direction: row;
+
+			.icon {
+				display: flex;
+				align-items: center;
+
+				font-size: 3rem;
+				color: rgba(0, 0, 0, 0.1);
+				padding-left: $spacer * 0.25;
+				padding-right: $spacer * 0.75;
+			}
+
+			.title {
+				display: flex;
+				align-items: center;
+
+				a {
+					font-weight: 500;
+					font-size: 1.5rem;
+					color: $gray-600;
+				}
+			}
+
+			.description {
+				font-weight: 400;
+				font-size: 1.2rem;
+				color: $gray-600;
+			}
+		}
+
+		.metrics {
+			display: flex;
+			flex-direction: row;
+
+			.metrics-item {
+				color: rgba(0, 0, 0, 0.7);
+
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+
+				font-size: 1.4rem;
+			}
+		}
+
+		.latest-message {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: flex-start;
+
+			font-size: 1.2rem;
+			color: rgba(0, 0, 0, 0.7);
+
+			.latest-message-username {
+				a {
+					font-weight: 500;
+				}
+			}
+		}
+
+		.actions {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+		}
+	}
 }
 
 #messages {
@@ -217,6 +255,9 @@ html, body {
 	}
 
 	.message-user-info {
+		display: flex;
+		justify-content: center;
+
 		color: #cc5252;
 		font-size: 1.6rem;
 		max-width: 10rem;

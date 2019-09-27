@@ -1,37 +1,35 @@
-{% extends "base_default.html" %}
+{% extends "base_breadcrumbs.html" %}
 {% block content %}
 	<div id="messages" class="category">
-		<div class="header p-2 bg-white text-muted">{{ thread.title }}</div>
-		<div class="body p-2 bg-light">
-			{% for message in messages %}
-				<div class="message-container d-flex flex-row bg-white shadow-sm p-3">
-						<div class="message-user-info pr-3">
-							{{ message.user.username }}
+		<div class="header p-2 text-muted">{{ thread.title }}</div>
+		{% for message in messages %}
+			<div class="message-container d-flex flex-row bg-white shadow-sm p-3">
+					<div class="message-user-info">
+						{{ message.user.username }}
+					</div>
+					<div class="message-body flex-grow-1 pl-3">
+						<div class="message-body-top d-flex flex-row justify-content-between pb-2 border-bottom border-light text-muted">
+								<span class="message-created-timestamp" data-timestamp="{{ message.created_at }}"></span>
+								{% if message.user.id == user.id %}
+								<div class="message-actions">
+									<a href="messages/{{ message.id }}/edit" class="icon-button mr-1" title="edit">
+										<i class="button mdi mdi-edit"></i>
+									</a>
+									<form method="POST" action="messages/{{ message.id }}/delete" class="form">
+										{{ form.csrf_token }}
+										<button type="submit" class="icon-button" title="delete">
+											<i class="button mdi mdi-delete"></i>
+										</button>
+									</form>
+								</div>
+								{% endif %}
 						</div>
-						<div class="message-body flex-grow-1 pl-3">
-							<div class="message-body-top d-flex flex-row justify-content-between pb-2 border-bottom border-light text-muted">
-									<span class="message-created-timestamp" data-timestamp="{{ message.created_at }}"></span>
-									{% if message.user.id == user.id %}
-									<div class="message-actions">
-										<a href="messages/{{ message.id }}/edit" class="icon-button mr-1" title="edit">
-											<i class="button mdi mdi-edit"></i>
-										</a>
-										<form method="POST" action="messages/{{ message.id }}/delete" class="form">
-											{{ form.csrf_token }}
-											<button type="submit" class="icon-button" title="delete">
-												<i class="button mdi mdi-delete"></i>
-											</button>
-										</form>
-									</div>
-									{% endif %}
-							</div>
-							<div class="message-text pt-2">
-								{{ message.text }}
-							</div>
+						<div class="message-text pt-2">
+							{{ message.text }}
 						</div>
-				</div>
-			{% endfor %}
-		</div>
+					</div>
+			</div>
+		{% endfor %}
 	</div>
 	{% if user %}
 		{% from "forms/macros.html" import render_field %}
