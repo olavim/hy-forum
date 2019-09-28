@@ -48,7 +48,8 @@ $ python run.py db --help
 
 # Documentation
 
-- [Database Relationship Diagram](documentation/db-diagram.png)
+- [Database Relationship Diagram (Final)](documentation/db-diagram.png)
+- [Database Relationship Diagram (Current)](documentation/db-diagram-current.png)
 - [User Stories](documentation/user-stories.md)
 
 ## For the reviewer
