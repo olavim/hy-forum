@@ -1,7 +1,10 @@
 import os
 from dotenv import load_dotenv, find_dotenv
 
-reloader_extra_files = ['application/static/scss/default.scss']
+reloader_extra_files = [
+	'application/static/scss/default.scss',
+	'application/static/scss/bootstrap-overrides.scss'
+]
 load_dotenv(find_dotenv())
 server_port = os.getenv('PORT', '5000')
 env = os.getenv('FLASK_ENV', 'development')

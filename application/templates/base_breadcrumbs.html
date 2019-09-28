@@ -6,20 +6,20 @@
 			<li class="breadcrumb-item">
 				<a href="{{ url_for('topics.list') }}">
 					<i class="mdi mdi-home"></i>
-					<label>Board index</label>
+					<span>Board index</span>
 				</a>
 			</li>
 			{% if topic %}
 			<li class="breadcrumb-item">
 				<a href="{{ url_for('threads.list', topic_id=topic.id) }}">
-					<label>{{ topic.title }}</label>
+					<span>{{ topic.title }}</span>
 				</a>
 			</li>
 			{% endif %}
 			{% if thread %}
 			<li class="breadcrumb-item">
 				<a href="{{ url_for('messages.list', topic_id=topic.id, thread_id=thread.id) }}">
-					<label>{{ thread.title }}</label>
+					<span>{{ thread.title }}</span>
 				</a>
 			</li>
 			{% endif %}

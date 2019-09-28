@@ -18,27 +18,27 @@
 		<header id="header" class="navbar navbar-expand pb-5 bg-theme-gradient">
 			<a class="navbar-brand" href="/">
 				<i class="mdi mdi-home"></i>
-				<label>Forum</label>
+				<span>Forum</span>
 			</a>
 			<ul class="navbar-nav ml-auto">
 				{% if user %}
 				<li class="nav-item">
 					<a class="nav-link" href="{{ url_for('auth.logout') }}">
 						<i class="mdi mdi-power-settings-new"></i>
-						<label>Logout</label>
+						<span>Logout</span>
 					</a>
 				</li>
 				{% else %}
 				<li class="nav-item mr-1">
 					<a class="nav-link" href="{{ url_for('auth.register') }}">
 						<i class="mdi mdi-person-add"></i>
-						<label>Register</label>
+						<span>Register</span>
 					</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ url_for('auth.login') }}">
 						<i class="mdi mdi-power-settings-new"></i>
-						<label>Login</label>
+						<span>Login</span>
 					</a>
 				</li>
 				{% endif %}

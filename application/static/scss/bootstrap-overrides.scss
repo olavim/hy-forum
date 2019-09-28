@@ -10,11 +10,6 @@
 
 	&:hover {
 		color: #ffffff;
-
-		label {
-			cursor: pointer;
-			text-decoration: underline;
-		}
 	}
 }
 
@@ -26,17 +21,16 @@ label {
 	margin-bottom: 0;
 }
 
+a:hover span {
+	text-decoration: underline;
+}
+
 .breadcrumb-item {
 	a {
 		color: #343a40;
 
 		&:hover {
 			text-decoration: none;
-
-			label {
-				cursor: pointer;
-				text-decoration: underline;
-			}
 		}
 	}
 }
