@@ -1,10 +1,20 @@
 {% extends "base_breadcrumbs.html" %}
 {% block content %}
-	{% from "forms/macros.html" import render_field %}
-	<form method="POST" class="form">
-		{{ form.csrf_token }}
-		{{ render_field(form.title, class="input text", value=topic.title) }}
-		{{ render_field(form.description, class="input text", value=topic.description) }}
-		<input type="submit" value="Submit" class="button green">
-	</form>
+	<div class="rounded-lg overflow-hidden shadow-sm bg-white">
+		<div class="section-header border-bottom border-light p-2">
+			<span class="h5 text-muted">Edit Topic</span>
+		</div>
+		{% from "forms/macros.html" import render_field %}
+		<form method="POST" class="form p-2">
+			{{ form.csrf_token }}
+			{{ render_field(form.title, value=topic.title) }}
+			{{ render_field(form.description, value=topic.description) }}
+			<div class="form-group row">
+				<div class="field-label"></div>
+				<div>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</form>
+	</div>
 {% endblock %}

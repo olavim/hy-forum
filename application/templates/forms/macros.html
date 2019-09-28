@@ -1,16 +1,13 @@
 {% macro render_field(field) %}
-	<div class="form_field">
-		{{ field.label(class="label") }}
-		{% if field.errors %}
-			{% set css_class = 'has_error ' + kwargs.pop('class', '') %}
-			{{ field(class=css_class, **kwargs) }}
-			<ul class="errors">
+	<div class="form-group row {{ 'was-validated' if field.errors else 'needs-validation' }}">
+		{{ field.label(class="field-label col-form-label") }}
+		<div class="field-input">
+			{{ field(class="form-control", **kwargs) }}
+			{% if field.errors %}
 				{% for error in field.errors %}
-					<li>{{ error|e }}</li>
+					<div class="invalid-feedback">{{ error|e }}</div>
 				{% endfor %}
-			</ul>
-		{% else %}
-			{{ field(**kwargs) }}
-		{% endif %}
+			{% endif %}
+		</div>
 	</div>
 {% endmacro %}

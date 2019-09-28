@@ -1,7 +1,7 @@
 {% extends "base_breadcrumbs.html" %}
 {% block content %}
 	<div id="threads" class="category rounded-lg overflow-hidden shadow-sm bg-white">
-		<div class="category-header p-2 text-muted">
+		<div class="category-header section-header p-2 text-muted">
 			<div class="info">Threads</div>
 			<div class="metrics-item">Messages</div>
 			<div class="latest-message">Last message</div>
@@ -22,7 +22,7 @@
 					</div>
 				</div>
 				<div class="metrics">
-					<div class="metrics-item">{{ topic.total_messages() }}</div>
+					<div class="metrics-item">{{ thread.total_messages() }}</div>
 				</div>
 				<div class="latest-message">
 					{% set message = thread.latest_message() %}

@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import TextField
+from wtforms import TextAreaField
 from wtforms.validators import Required
 
 class MessageForm(FlaskForm):
-	text = TextField('Text', [Required()])
+	text = TextAreaField('Text', [Required()])
 
 class EditMessageForm(FlaskForm):
-	text = TextField('Text', [Required()])
+	text = TextAreaField('Text', [Required()])

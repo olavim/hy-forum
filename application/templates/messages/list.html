@@ -32,11 +32,16 @@
 		{% endfor %}
 	</div>
 	{% if user %}
-		{% from "forms/macros.html" import render_field %}
-		<form method="POST" class="form">
-			{{ form.csrf_token }}
-			{{ render_field(form.text, class="input text") }}
-			<input type="submit" value="Submit" class="button green">
-		</form>
+		<div class="rounded-lg overflow-hidden shadow-sm bg-white mt-1">
+			<div class="section-header border-bottom border-light p-2">
+				<span class="h5 text-muted">New Message</span>
+			</div>
+			{% from "forms/macros.html" import render_field %}
+			<form method="POST" class="form p-2">
+				{{ form.csrf_token }}
+				{{ render_field(form.text) }}
+				<input type="submit" value="Submit" class="button green">
+			</form>
+		</div>
 	{% endif %}
 {% endblock %}

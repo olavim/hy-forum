@@ -42,4 +42,4 @@ def create():
 
 		return redirect(url_for('threads.list', topic_id=g.topic.id))
 
-	return render_template('threads/create.html', form=form, user=g.user)
+	return render_template('threads/create.html', form=form, user=g.user, topic=g.topic)

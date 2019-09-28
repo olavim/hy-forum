@@ -1,12 +1,12 @@
-/* bootstrap overrides */
 $spacer: 3rem;
 $breadcrumb-divider: quote('\2039');
-
 $primary: #62a0e0;
+$font-size-base: 1.2rem;
+$h5-font-size: 1.4rem;
 
 @import './vendor/bootstrap-4.3.1/bootstrap';
-@import './vendor/material-design-icons-2.2.0/material-icons';
 @import './bootstrap-overrides';
+@import './vendor/material-design-icons-2.2.0/material-icons';
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 
 html, body {
@@ -80,9 +80,6 @@ html, body {
 	}
 
 	.category-header {
-		font-weight: 500;
-		font-size: 1.4rem;
-
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -108,8 +105,8 @@ html, body {
 		background-color: $white;
 		padding: $spacer * 0.5;
 
-		&:not(:first-child) {
-			border-top: 1px solid $gray-200;
+		&:not(:last-child) {
+			border-bottom: 1px solid $gray-200;
 		}
 
 		.info {
@@ -214,4 +211,30 @@ html, body {
 		min-width: 5rem;
 		width: 25%;
 	}
+}
+
+.form-group.row {
+	margin-left: 0;
+	margin-right: 0;
+	flex-wrap: nowrap;
+	max-width: 45rem;
+
+	.field-label {
+		display: flex;
+		flex: 0 0 20rem;
+	}
+
+	.field-input {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+	}
+}
+
+.section-header {
+	height: 5rem;
+	font-size: 1.4rem;
+	font-weight: 500;
+	color: $gray-600;
+	border-bottom: 1px solid $gray-200;
 }
