@@ -1,0 +1,46 @@
+.shadow-sm {
+	box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.15) !important;
+}
+
+.navbar-brand, .nav-link {
+	color: #ffffff;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.38);
+	font-size: 1.4rem;
+	font-weight: 500;
+
+	&:hover {
+		color: #ffffff;
+
+		label {
+			cursor: pointer;
+			text-decoration: underline;
+		}
+	}
+}
+
+.btn {
+	font-size: 1.2rem;
+}
+
+label {
+	margin-bottom: 0;
+}
+
+.breadcrumb-item {
+	a {
+		color: #343a40;
+
+		&:hover {
+			text-decoration: none;
+
+			label {
+				cursor: pointer;
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+.border-light {
+	border-color: #efefef !important;
+}

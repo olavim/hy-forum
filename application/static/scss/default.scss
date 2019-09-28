@@ -6,6 +6,7 @@ $primary: #62a0e0;
 
 @import './vendor/bootstrap-4.3.1/bootstrap';
 @import './vendor/material-design-icons-2.2.0/material-icons';
+@import './bootstrap-overrides';
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
 
 html, body {
@@ -14,57 +15,6 @@ html, body {
 	font-size: 62.5%;
 	font-family: 'Roboto', sans-serif;
 	background-color: #ffffff;
-}
-
-.navbar-brand, .nav-link {
-	color: #ffffff;
-	text-shadow: 0 1px rgba(0, 0, 0, 0.38);
-	font-size: 1.4rem;
-	font-weight: 500;
-
-	.feather {
-		filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.38));
-	}
-
-	label {
-		margin: 0;
-	}
-
-	&:hover {
-		color: #ffffff;
-
-		label {
-			cursor: pointer;
-			text-decoration: underline;
-		}
-	}
-}
-
-.btn {
-	font-size: 1.2rem;
-}
-
-label {
-	margin-bottom: 0;
-}
-
-.breadcrumb-item {
-	a {
-		color: #343a40;
-
-		&:hover {
-			text-decoration: none;
-
-			label {
-				cursor: pointer;
-				text-decoration: underline;
-			}
-		}
-	}
-}
-
-.border-light {
-	border-color: #efefef !important;
 }
 
 .bg-theme-gradient {
