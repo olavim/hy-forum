@@ -21,7 +21,7 @@
 				<span>Forum</span>
 			</a>
 			<ul class="navbar-nav ml-auto">
-				{% if user %}
+				{% if current_user.is_authenticated %}
 				<li class="nav-item">
 					<a class="nav-link" href="{{ url_for('auth.logout') }}">
 						<i class="mdi mdi-power-settings-new"></i>

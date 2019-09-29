@@ -18,7 +18,7 @@ def before_request():
 @mod.route('/topics', methods=['GET'])
 def list():
 	topics = Topic.query.all()
-	return render_template('topics/list.html', user=g.user, topics=topics)
+	return render_template('topics/list.html', topics=topics)
 
 @mod.route('/topics/<id>', methods=['DELETE'])
 def delete(id):
@@ -38,7 +38,7 @@ def create():
 
 		return redirect(url_for('topics.list'))
 
-	return render_template('topics/create.html', form=form, user=g.user)
+	return render_template('topics/create.html', form=form)
 
 @mod.route('/topics/<id>/edit', methods=['GET', 'POST'])
 def edit(id):
@@ -52,4 +52,4 @@ def edit(id):
 
 		return redirect(url_for('topics.list'))
 
-	return render_template('topics/edit.html', form=form, topic=topic, user=g.user)
+	return render_template('topics/edit.html', form=form, topic=topic)

@@ -1,6 +1,7 @@
 import os
 import bcrypt
-from flask import Blueprint, request, json, session, redirect, url_for, g, render_template, flash
+from flask import Blueprint, request, redirect, url_for, g, render_template, abort
+from flask_login import current_user, login_required
 from ..main import db
 from ..models.user import User
 from ..models.topic import Topic
@@ -17,41 +18,45 @@ def pull_lang_code(endpoint, values):
 	g.topic = Topic.query.get(topic_id)
 	g.thread = Thread.query.get(thread_id)
 
-@mod.before_request
-def before_request():
-	g.user = None
-	if 'user_id' in session:
-		g.user = User.query.get(session['user_id'])
-
 @mod.route('/', methods=['GET'])
 @mod.route('/messages', methods=['GET'])
 def list():
 	form = DeleteMessageForm(request.form)
-	return render_template('messages/list.html', topic=g.topic, thread=g.thread, messages=g.thread.messages, user=g.user, form=form)
+	return render_template('messages/list.html', topic=g.topic, thread=g.thread, messages=g.thread.messages, form=form)
 
 @mod.route('/messages/new', methods=['GET', 'POST'])
+@login_required
 def create():
 	form = MessageForm(request.form)
 	if form.validate_on_submit():
-		message = Message(thread_id=g.thread.id, user_id=g.user.id, text=form.text.data)
+		message = Message(thread_id=g.thread.id, user_id=current_user.id, text=form.text.data)
 		db.session().add(message)
 		db.session().commit()
 
 		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
 
-	return render_template('messages/create.html', form=form, topic=g.topic, thread=g.thread, messages=g.thread.messages, user=g.user)
+	return render_template('messages/create.html', form=form, topic=g.topic, thread=g.thread, messages=g.thread.messages)
 
 @mod.route('/messages/<id>/delete', methods=['POST'])
+@login_required
 def delete(id):
 	message = Message.query.get(id)
+
+	if message.user.id != current_user.id:
+		abort(403)
+
 	db.session().delete(message)
 	db.session().commit()
 
-	return redirect(url_for('messages.list', topic=g.topic, thread=g.thread, user=g.user))
+	return redirect(url_for('messages.list', topic=g.topic, thread=g.thread))
 
 @mod.route('/messages/<id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit(id):
 	message = Message.query.get(id)
+
+	if message.user.id != current_user.id:
+		abort(403)
 
 	form = EditMessageForm(request.form)
 
@@ -64,4 +69,4 @@ def edit(id):
 
 		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
 
-	return render_template('messages/edit.html', form=form, topic=g.topic, thread=g.thread, user=g.user, message=message)
+	return render_template('messages/edit.html', form=form, topic=g.topic, thread=g.thread, message=message)

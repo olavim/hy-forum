@@ -1,6 +1,7 @@
 import os
 import bcrypt
-from flask import Blueprint, request, json, session, redirect, url_for, g, render_template, flash
+from flask import Blueprint, request, redirect, url_for, g, render_template, abort
+from flask_login import current_user, login_required
 from ..main import db
 from ..models.user import User
 from ..models.topic import Topic
@@ -15,36 +16,36 @@ def pull_lang_code(endpoint, values):
 	topic_id = values.pop('topic_id', None)
 	g.topic = Topic.query.get(topic_id)
 
-@mod.before_request
-def before_request():
-	g.user = None
-	if 'user_id' in session:
-		g.user = User.query.get(session['user_id'])
-
 @mod.route('/', methods=['GET'])
 def list():
-	return render_template('threads/list.html', topic=g.topic, threads=g.topic.threads, user=g.user)
+	return render_template('threads/list.html', topic=g.topic, threads=g.topic.threads)
 
 @mod.route('/<id>', methods=['DELETE'])
+@login_required
 def delete(id):
 	thread = Thread.query.get(id)
+
+	if thread.user.id != current_user.id:
+		abort(403)
+
 	db.session().delete(thread)
 	db.session().commit()
 
 	return redirect(url_for('threads.list', topic_id=g.topic.id))
 
 @mod.route('/new', methods=['GET', 'POST'])
+@login_required
 def create():
 	form = ThreadForm(request.form)
 	if form.validate_on_submit():
-		thread = Thread(title=form.title.data, topic_id=g.topic.id, user_id=g.user.id)
+		thread = Thread(title=form.title.data, topic_id=g.topic.id, user_id=current_user.id)
 		db.session().add(thread)
 		db.session().flush()
 
-		message = Message(text=form.text.data, thread_id=thread.id, user_id=g.user.id)
+		message = Message(text=form.text.data, thread_id=thread.id, user_id=current_user.id)
 		db.session().add(message)
 		db.session().commit()
 
 		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=thread.id))
 
-	return render_template('threads/create.html', form=form, user=g.user, topic=g.topic)
+	return render_template('threads/create.html', form=form, topic=g.topic)

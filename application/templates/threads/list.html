@@ -5,7 +5,7 @@
 			<div class="info">Threads</div>
 			<div class="metrics-item">Messages</div>
 			<div class="latest-message">Last message</div>
-			{% if user %}
+			{% if current_user.is_authenticated %}
 			<div class="actions"></div>
 			{% endif %}
 		</div>
@@ -41,7 +41,7 @@
 			</div>
 		{% endfor %}
 	</div>
-	{% if user %}
+	{% if current_user.is_authenticated %}
 		<a class="btn btn-primary mt-3" href="{{ url_for('threads.create', topic_id=topic.id) }}">New Thread</a>
 	{% endif %}
 {% endblock %}

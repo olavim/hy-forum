@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from flask_assets import Environment, Bundle
+from flask_login import LoginManager
 import config
 
 app = Flask(__name__)
@@ -12,6 +13,10 @@ app.config.from_object(config)
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+login_manager = LoginManager(app)
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'auth.login'
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
@@ -22,6 +27,7 @@ assets = Environment(app)
 js = Bundle('js/*', filters='rjsmin', output='js/gen/bundle.js')
 assets.register('js_all', js)
 
+import application.views.errors
 from .views.auth import mod as auth_module
 from .views.topics import mod as topics_module
 from .views.threads import mod as threads_module

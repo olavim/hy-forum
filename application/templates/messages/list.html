@@ -27,7 +27,7 @@
 				<div class="message-body flex-grow-1 pl-3">
 					<div class="message-body-top d-flex flex-row justify-content-between pb-2 border-bottom border-light text-muted">
 							<span class="message-created-timestamp" data-timestamp="{{ message.created_at }}"></span>
-							{% if message.user.id == user.id %}
+							{% if message.user.id == current_user.id %}
 							<div class="message-actions">
 								<a href="{{ url_for('messages.edit', topic_id=topic.id, thread_id=thread.id, id=message.id) }}" class="icon-button mr-1" title="edit">
 									<i class="button mdi mdi-edit"></i>

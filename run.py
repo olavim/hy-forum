@@ -36,7 +36,7 @@ def start_server():
 	print('Starting server on port {0}'.format(config.server_port))
 
 	if config.env == 'development':
-		app.run(debug=True, port=config.server_port, extra_files=config.reloader_extra_files)
+		app.run(port=config.server_port, extra_files=config.reloader_extra_files, debug=config.DEBUG)
 	else:
 		from waitress import serve
 		serve(app, host='0.0.0.0', port=config.server_port)
