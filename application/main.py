@@ -36,3 +36,10 @@ app.register_blueprint(auth_module)
 app.register_blueprint(topics_module)
 app.register_blueprint(threads_module)
 app.register_blueprint(messages_module)
+
+# Import models so that alembic can find them
+import application.models.user
+import application.models.role
+import application.models.topic
+import application.models.thread
+import application.models.message

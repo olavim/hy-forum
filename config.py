@@ -14,6 +14,8 @@ raw_db_path = os.getenv('DATABASE_URL')
 project_root = os.path.dirname(__file__)
 db_path = raw_db_path.replace('%PROJECT_ROOT%', project_root)
 
+admin_password = os.getenv('ADMIN_PASSWORD')
+
 FLASK_ENV = env
 DEBUG = os.getenv('DEBUG') == 'True' if os.getenv('DEBUG') else env == 'development'
 PROPAGATE_EXCEPTIONS = False
