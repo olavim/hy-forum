@@ -52,4 +52,4 @@ def edit(id):
 
 		return redirect(url_for('topics.list'))
 
-	return render_template('topics/edit.html', form=form, topic=topic)
+	return render_template('topics/edit.html', form=form, topic=topic, user=g.user)

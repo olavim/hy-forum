@@ -2,14 +2,14 @@
 {% block content %}
 	<div class="rounded-lg overflow-hidden shadow-sm bg-white">
 		<div class="section-header border-bottom border-light p-2">
-			<span class="h5 text-muted">Edit Message</span>
+			<span class="h5 text-muted">New Message</span>
 		</div>
 		{% from "forms/macros.html" import render_field %}
 		<form method="POST" class="form p-2">
 			{{ form.csrf_token }}
 			{{ form.text(class="form-control mb-2", rows="6", placeholder="Type something...") }}
 			<div class="d-flex justify-content-end">
-				<button type="submit" class="btn btn-primary">Save</button>
+				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>
 		</form>
 	</div>
