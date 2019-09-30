@@ -18,6 +18,9 @@ def pull_lang_code(endpoint, values):
 	g.topic = Topic.query.get(topic_id)
 	g.thread = Thread.query.get(thread_id)
 
+	if not g.topic or not g.thread:
+		abort(404)
+
 @mod.route('/', methods=['GET'])
 @mod.route('/messages', methods=['GET'])
 def list():
@@ -42,6 +45,9 @@ def create():
 def delete(id):
 	message = Message.query.get(id)
 
+	if not message:
+		abort(404)
+
 	if message.user.id != current_user.id:
 		abort(403)
 
@@ -54,6 +60,9 @@ def delete(id):
 @login_required
 def edit(id):
 	message = Message.query.get(id)
+
+	if not message:
+		abort(404)
 
 	if message.user.id != current_user.id:
 		abort(403)

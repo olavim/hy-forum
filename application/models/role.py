@@ -16,6 +16,11 @@ class Role(Base):
 	def __repr__(self):
 		return '<Role id=%r name=%r>' % (self.id, self.name)
 
+	@classmethod
+	def choices(cls):
+		roles = Role.query.all()
+		return [(r.name, r.name) for r in roles if r.name != 'admin']
+
 class Permission(Base):
 	__tablename__ = 'permission'
 
@@ -27,14 +32,19 @@ class Permission(Base):
 	def __repr__(self):
 		return '<Permission id=%r permission=%r>' % (self.id, self.permission)
 
+	@classmethod
+	def choices(cls):
+		permissions = Permission.query.all()
+		return [(p.permission, p.permission) for p in permissions]
+
 class RoleMembership(TimestampBase):
 	__tablename__ = 'role_membership'
 
 	role_id = Column(Integer, ForeignKey('role.id'), primary_key=True)
 	user_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
 
-	role = relationship('Role', cascade='delete')
 	user = relationship('User', cascade='delete')
+	role = relationship('Role', cascade='delete')
 
 	def __init__(self, role_id=None, user_id=None):
 		self.role_id = role_id

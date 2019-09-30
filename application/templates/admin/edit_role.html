@@ -1,0 +1,65 @@
+{% extends "base_breadcrumbs.html" %}
+{% block content %}
+	<ul class="nav nav-pills nav-justified">
+		<li class="nav-item bg-white shadow-sm rounded-lg mr-1">
+			<a class="nav-link" href="{{ url_for('admin.users') }}">User management</a>
+		</li>
+		<li class="nav-item bg-white shadow-sm rounded-lg ml-1">
+			<a class="nav-link" href="{{ url_for('admin.roles') }}">Role management</a>
+		</li>
+	</ul>
+	<div class="rounded-lg overflow-hidden shadow-sm bg-white mt-2">
+		<div class="section-header border-bottom border-light p-2">
+			<span class="h5 text-muted">Edit Role</span>
+		</div>
+		{% from "forms/macros.html" import render_field %}
+		<form method="POST" class="form p-2">
+			{{ form.csrf_token }}
+			{{ render_field(form.name, value=role.name) }}
+			<div class="form-group row">
+				<div class="field-label"></div>
+				<div>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</form>
+		<div class="p-2">
+			<div class="form-group row">
+				<div class="field-label">Permissions</div>
+				<div class="field-input">
+					{% if role.permissions|length == 0 %}
+						<div class="text-muted mb-2">No permissions</div>
+					{% else %}
+						<ul class="list-group mb-2">
+							{% for permission in role.permissions %}
+								<li class="list-group-item d-flex">
+									<div class="d-flex flex-grow-1 align-items-center">{{ permission.permission }}</div>
+									<form method="POST" action="{{ url_for('admin.delete_role_permission', id=role.id, permission_id=permission.id) }}" class="form d-flex align-items-center">
+										{{ delete_permission_form.csrf_token }}
+										<button type="submit" class="icon-button" title="delete">
+											<i class="button mdi mdi-delete"></i>
+										</button>
+									</form>
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+					<form method="POST" class="form-inline" action="{{ url_for('admin.add_role_permission', id=role.id) }}">
+						{{ permission_form.csrf_token }}
+						<div class="form-group mr-1 flex-grow-1">
+							<div class="field-input">
+								{{ permission_form.permission(class="form-control") }}
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="field-label"></div>
+							<div>
+								<button type="submit" class="btn btn-primary">Add permission</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -19,11 +19,18 @@ class User(UserMixin, Base):
 	def __repr__(self):
 		return '<User id=%r username=%r>' % (self.id, self.username)
 
-	def is_admin(self):
-		return True
+	def has_role(self, role):
+		return any(role for role in self.roles if role.name == role)
+
+	def has(self, permission):
+		return self.has_role('admin') \
+			or any(p for role in self.roles for p in role.permissions if p.permission == permission)
 
 class AnonymousUser(AnonymousUserMixin):
-	def is_admin(self):
+	def has_role(self, role):
+		return False
+
+	def has(self, permission):
 		return False
 
 login_manager.anonymous_user = AnonymousUser

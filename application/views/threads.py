@@ -16,6 +16,9 @@ def pull_lang_code(endpoint, values):
 	topic_id = values.pop('topic_id', None)
 	g.topic = Topic.query.get(topic_id)
 
+	if not g.topic:
+		abort(404)
+
 @mod.route('/', methods=['GET'])
 def list():
 	return render_template('threads/list.html', topic=g.topic, threads=g.topic.threads)
@@ -24,6 +27,9 @@ def list():
 @login_required
 def delete(id):
 	thread = Thread.query.get(id)
+
+	if not thread:
+		abort(404)
 
 	if thread.user.id != current_user.id:
 		abort(403)

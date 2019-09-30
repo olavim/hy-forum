@@ -3,10 +3,10 @@
 	<div class="management">
 		<ul class="nav nav-pills nav-justified">
 			<li class="nav-item bg-white shadow-sm rounded-lg mr-1">
-				<a class="nav-link active" href="{{ url_for('admin.users') }}">User management</a>
+				<a class="nav-link" href="{{ url_for('admin.users') }}">User management</a>
 			</li>
 			<li class="nav-item bg-white shadow-sm rounded-lg ml-1">
-				<a class="nav-link" href="{{ url_for('admin.roles') }}">Role management</a>
+				<a class="nav-link active" href="#">Role management</a>
 			</li>
 		</ul>
 		<div class="rounded-lg overflow-hidden shadow-sm bg-white mt-2">
@@ -14,26 +14,34 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>User</th>
-							<th>Roles</th>
+							<th>Role</th>
+							<th>Permissions</th>
 							<th style="width: 10%">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for user in users %}
+						{% for role in roles %}
 							<tr>
-								<td><div>{{ user.username }}</div></td>
+								<td><div>{{ role.name }}</div></td>
 								<td>
-									{% for role in user.roles %}
-										<div>{{ role.name }}</div>
-									{% endfor %}
+									<div class="flex-wrap">
+										{% for permission in role.permissions %}
+											<span class="mr-1">{{ permission.permission }}</span>
+										{% endfor %}
+									</div>
 								</td>
 								<td style="width: 10%">
 									<div>
-										{% if not user.username == 'admin' %}
-										<a href="{{ url_for('admin.edit_user', id=user.id) }}" class="icon-button" title="edit">
+										{% if not role.name == 'admin' %}
+										<a href="{{ url_for('admin.edit_role', id=role.id) }}" class="icon-button mr-1" title="edit">
 											<i class="button mdi mdi-edit"></i>
 										</a>
+										<form method="POST" action="{{ url_for('admin.delete_role', id=role.id) }}" class="form">
+											{{ delete_role_form.csrf_token }}
+											<button type="submit" class="icon-button" title="delete">
+												<i class="button mdi mdi-delete"></i>
+											</button>
+										</form>
 										{% endif %}
 									</div>
 								</td>
@@ -42,16 +50,9 @@
 					</tbody>
 				</table>
 				<div class="p-2 d-flex justify-content-end">
-					<form method="GET" class="form-inline flex-grow-1">
-						<div class="form-group mr-1">
-							<div class="field-input">
-								{{ search_users_form.search(class="form-control", placeholder="Username") }}
-							</div>
-						</div>
-						<div class="form-group">
-							<button type="submit" class="btn btn-primary">Search</button>
-						</div>
-					</form>
+					<div class="flex-grow-1">
+						<a class="btn btn-primary" href="{{ url_for('admin.create_role') }}">New Role</a>
+					</div>
 					<ul class="pagination p-0 m-0">
 						<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 						<li class="page-item active"><a class="page-link" href="#">1</a></li>

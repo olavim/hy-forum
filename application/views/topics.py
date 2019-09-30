@@ -1,18 +1,12 @@
 import os
 import bcrypt
-from flask import Blueprint, request, json, session, redirect, url_for, g, render_template, flash
+from flask import Blueprint, request, redirect, url_for, g, render_template, abort
 from ..main import db
 from ..models.user import User
 from ..models.topic import Topic
 from ..forms.topic import TopicForm
 
 mod = Blueprint('topics', __name__, url_prefix='/')
-
-@mod.before_request
-def before_request():
-	g.user = None
-	if 'user_id' in session:
-		g.user = User.query.get(session['user_id'])
 
 @mod.route('/', methods=['GET'])
 @mod.route('/topics', methods=['GET'])
@@ -23,6 +17,10 @@ def list():
 @mod.route('/topics/<id>', methods=['DELETE'])
 def delete(id):
 	topic = Topic.query.get(id)
+
+	if not topic:
+		abort(404)
+
 	db.session().delete(topic)
 	db.session().commit()
 
@@ -43,6 +41,9 @@ def create():
 @mod.route('/topics/<id>/edit', methods=['GET', 'POST'])
 def edit(id):
 	topic = Topic.query.get(id)
+
+	if not topic:
+		abort(404)
 
 	form = TopicForm(request.form)
 	if form.validate_on_submit():

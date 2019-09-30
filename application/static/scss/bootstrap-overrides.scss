@@ -2,14 +2,23 @@
 	box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.15) !important;
 }
 
-.navbar-brand, .nav-link {
-	color: #ffffff;
-	text-shadow: 0 1px rgba(0, 0, 0, 0.38);
-	font-size: 1.4rem;
-	font-weight: 500;
-
-	&:hover {
+.navbar {
+	.navbar-brand, .nav-link {
 		color: #ffffff;
+		text-shadow: 0 1px rgba(0, 0, 0, 0.38);
+		font-size: 1.4rem;
+		font-weight: 500;
+
+		&:hover {
+			color: #ffffff;
+		}
+	}
+}
+
+.nav-pills {
+	.nav-link {
+		font-size: 1.4rem;
+		padding: $spacer * 0.25 $spacer * 0.5
 	}
 }
 
@@ -81,5 +90,21 @@ a:hover span {
 				display: block;
 			}
 		}
+
+		tr:last-child td {
+			border-bottom: 0;
+		}
+	}
+}
+
+.pagination {
+	.page-link {
+		border: 0;
+		color: $gray-600;
+		padding: $spacer * 0.25 $spacer * 0.5;
+	}
+
+	.page-item.disabled .page-link {
+		color: $gray-500;
 	}
 }
