@@ -60,13 +60,12 @@ def edit(id):
 
 	form = EditMessageForm(request.form)
 
-	# Set textarea default value
-	form.text.process_data(message.text)
-
 	if form.validate_on_submit():
 		message.text = form.text.data
 		db.session().commit()
 
 		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
 
+	# Set textarea default value
+	form.text.process_data(message.text)
 	return render_template('messages/edit.html', form=form, topic=g.topic, thread=g.thread, message=message)

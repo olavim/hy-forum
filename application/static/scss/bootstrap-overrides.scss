@@ -38,3 +38,48 @@ a:hover span {
 .border-light {
 	border-color: #efefef !important;
 }
+
+.table {
+	margin-bottom: 0;
+
+	thead {
+		th {
+			padding-top: $spacer * 0.5;
+			padding-bottom: $spacer * 0.5;
+			padding-left: $spacer * 0.5;
+			padding-right: $spacer * 0.5;
+
+			font-weight: 500;
+			font-size: 1.4rem;
+			color: $gray-600;
+
+			border-top: none;
+			border-bottom: 1px solid $gray-200;
+		}
+	}
+
+	tbody {
+		td {
+			padding: 0;
+
+			font-weight: 400;
+			font-size: 1.3rem;
+			color: $gray-600;
+
+			border-bottom: 1px solid $gray-200;
+
+			div {
+				height: 5rem;
+				padding-left: $spacer * 0.5;
+				padding-right: $spacer * 0.5;
+
+				display: flex;
+				align-items: center;
+			}
+
+			.icon-button {
+				display: block;
+			}
+		}
+	}
+}

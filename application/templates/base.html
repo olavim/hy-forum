@@ -15,34 +15,36 @@
 	</head>
 	<body class="bg-light">
 		{% block header %}
-		<header id="header" class="navbar navbar-expand pb-5 bg-theme-gradient">
-			<a class="navbar-brand" href="/">
-				<i class="mdi mdi-home"></i>
-				<span>Forum</span>
-			</a>
-			<ul class="navbar-nav ml-auto">
-				{% if current_user.is_authenticated %}
-				<li class="nav-item">
-					<a class="nav-link" href="{{ url_for('auth.logout') }}">
-						<i class="mdi mdi-power-settings-new"></i>
-						<span>Logout</span>
-					</a>
-				</li>
-				{% else %}
-				<li class="nav-item mr-1">
-					<a class="nav-link" href="{{ url_for('auth.register') }}">
-						<i class="mdi mdi-person-add"></i>
-						<span>Register</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ url_for('auth.login') }}">
-						<i class="mdi mdi-power-settings-new"></i>
-						<span>Login</span>
-					</a>
-				</li>
-				{% endif %}
-			</ul>
+		<header id="header" class="pb-5 bg-theme-gradient">
+			<div id="header-body" class="navbar navbar-expand pl-0 pr-0">
+				<a class="navbar-brand" href="/">
+					<i class="mdi mdi-home"></i>
+					<span>Forum</span>
+				</a>
+				<ul class="navbar-nav ml-auto">
+					{% if current_user.is_authenticated %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('auth.logout') }}">
+							<i class="mdi mdi-power-settings-new"></i>
+							<span>Logout</span>
+						</a>
+					</li>
+					{% else %}
+					<li class="nav-item mr-1">
+						<a class="nav-link" href="{{ url_for('auth.register') }}">
+							<i class="mdi mdi-person-add"></i>
+							<span>Register</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url_for('auth.login') }}">
+							<i class="mdi mdi-power-settings-new"></i>
+							<span>Login</span>
+						</a>
+					</li>
+					{% endif %}
+				</ul>
+			</div>
 		</header>
 		{% endblock %}
 		<div id="content" class="ml-4 mr-4">

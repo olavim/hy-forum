@@ -1,0 +1,50 @@
+{% extends "base_breadcrumbs.html" %}
+{% block content %}
+	<div id="user-management">
+		<h1 class="header mb-3 text-muted">User management</h1>
+		<div class="rounded-lg overflow-hidden shadow-sm bg-white mt-2">
+			<div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>User</th>
+							<th>Roles</th>
+							<th style="width: 10%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for user in users %}
+							<tr>
+								<td><div>{{ user.username }}</div></td>
+								<td>
+									{% for role in user.roles %}
+										<div>{{ role.name }}</div>
+									{% endfor %}
+								</td>
+								<td style="width: 10%">
+									<div>
+										<a href="{{ url_for('admin.edit_user', id=user.id) }}" class="icon-button" title="edit">
+											<i class="button mdi mdi-edit"></i>
+										</a>
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="rounded-lg overflow-hidden shadow-sm bg-white mt-2">
+			<form method="GET" class="form-inline p-2">
+				<div class="form-group mr-1">
+					<div class="field-input">
+						{{ search_users_form.search(class="form-control", placeholder="Username") }}
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary">Search</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
