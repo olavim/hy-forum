@@ -48,7 +48,7 @@ def delete(id):
 	db.session().delete(message)
 	db.session().commit()
 
-	return redirect(url_for('messages.list', topic=g.topic, thread=g.thread))
+	return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
 
 @mod.route('/messages/<id>/edit', methods=['GET', 'POST'])
 @login_required
