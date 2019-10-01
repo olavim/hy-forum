@@ -5,7 +5,7 @@
 			<div class="info">Threads</div>
 			<div class="metrics-item">Messages</div>
 			<div class="latest-message">Last message</div>
-			{% if current_user.is_authenticated %}
+			{% if current_user.has('threads:edit') %}
 				<div class="actions"></div>
 			{% endif %}
 		</div>
@@ -35,8 +35,12 @@
 						<div>No messages</div>
 					{% endif %}
 				</div>
-				{% if current_user.is_authenticated %}
-					<div class="actions"></div>
+				{% if current_user.has('threads:edit') %}
+					<div class="actions">
+						<a href="{{ url_for('threads.edit', topic_id=topic.id, id=thread.id) }}" class="icon-button" title="edit">
+							<i class="button mdi mdi-edit"></i>
+						</a>
+					</div>
 				{% endif %}
 			</div>
 		{% endfor %}

@@ -42,7 +42,7 @@
 				</div>
 				{% if current_user.has('topics:edit') %}
 					<div class="actions">
-						<a href="topics/{{ topic.id }}/edit" class="icon-button" title="edit">
+						<a href="{{ url_for('topics.edit', id=topic.id) }}" class="icon-button" title="edit">
 							<i class="button mdi mdi-edit"></i>
 						</a>
 					</div>

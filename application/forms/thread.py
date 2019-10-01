@@ -5,3 +5,6 @@ from wtforms.validators import Required
 class ThreadForm(FlaskForm):
 	title = TextField('Title', [Required()])
 	text = TextAreaField('Text', [Required()])
+
+class EditThreadForm(FlaskForm):
+	title = TextField('Title', [Required()])
