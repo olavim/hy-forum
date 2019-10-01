@@ -62,7 +62,7 @@ def edit_user(id):
 	if not user:
 		abort(404)
 
-	if user.has_role('admin'):
+	if user.is_admin:
 		abort(403)
 
 	form = UserForm(request.form)
@@ -84,7 +84,7 @@ def add_user_role(id):
 	if not user:
 		abort(404)
 
-	if user.has_role('admin'):
+	if user.is_admin:
 		abort(403)
 
 	form = UserRoleForm(request.form)
@@ -110,7 +110,7 @@ def delete_user_role(id, role_id):
 	if not user or not role:
 		abort(404)
 
-	if user.has_role('admin') or role.name == 'admin':
+	if user.is_admin:
 		abort(403)
 
 	user.roles.remove(role)
@@ -126,9 +126,6 @@ def edit_role(id):
 
 	if not role:
 		abort(404)
-
-	if role.name == 'admin':
-		abort(403)
 
 	form = RoleForm(request.form)
 
@@ -149,9 +146,6 @@ def delete_role(id):
 	if not role:
 		abort(404)
 
-	if role.name == 'admin':
-		abort(403)
-
 	db.session().delete(role)
 	db.session().commit()
 
@@ -165,9 +159,6 @@ def add_role_permission(id):
 
 	if not role:
 		abort(404)
-
-	if role.name == 'admin':
-		abort(403)
 
 	form = RolePermissionForm(request.form)
 
@@ -187,9 +178,6 @@ def delete_role_permission(id, permission_id):
 
 	if not role or not permission:
 		abort(404)
-
-	if role.name == 'admin':
-		abort(403)
 
 	role.permissions.remove(permission)
 	db.session().commit()

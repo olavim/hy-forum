@@ -37,7 +37,6 @@ def upgrade():
 
     session.commit()
 
-
 def downgrade():
     session = Session(bind=op.get_bind())
 

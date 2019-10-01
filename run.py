@@ -62,53 +62,6 @@ def upgrade_db(first_attempt=True):
 			logging.error(traceback.format_exc())
 			raise
 
-def ensure_admin_user():
-	log_section('Ensure admin user')
-
-	from application.models.user import User
-	from application.models.role import Role, Permission
-
-	admin_user = User.query.filter_by(username='admin').first()
-	admin_role = Role.query.filter_by(name='admin').first()
-
-	if admin_user:
-		print('Admin user exists')
-	else:
-		print('Creating admin user...')
-
-		if not config.admin_password:
-			print('Cannot continue: Admin password not configured')
-			return
-
-		import bcrypt
-		password_hash = bcrypt.hashpw(config.admin_password.encode('utf8'), bcrypt.gensalt())
-		admin_user = User('admin', password_hash.decode('utf8'))
-
-		db.session().add(admin_user)
-		db.session().commit()
-
-	if admin_role:
-		print('Admin role exists')
-	else:
-		print('Creating admin role...')
-
-		manage_roles_permission = Permission.query.filter_by(permission='roles:manage').first()
-
-		admin_role = Role('admin')
-		admin_role.permissions.append(manage_roles_permission)
-
-		db.session().add(admin_role)
-		db.session().commit()
-
-	admin_user_has_role = any(role.id == admin_role.id for role in admin_user.roles)
-
-	if admin_user_has_role:
-		print('Admin user has admin role')
-	else:
-		print('Giving admin role to admin user...')
-		admin_user.roles.append(admin_role)
-		db.session().commit()
-
 def migrate_db(first_attempt=True):
 	log_section('Run database migrations')
 	with app.app_context():
@@ -129,7 +82,6 @@ def main(no_migrations=False, no_assets=False, no_run=False):
 		build_styles()
 
 	if not no_run:
-		ensure_admin_user()
 		start_server()
 
 @click.group(invoke_without_command=True)

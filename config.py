@@ -1,4 +1,5 @@
 import os
+import bcrypt
 from dotenv import load_dotenv, find_dotenv
 
 reloader_extra_files = [
@@ -14,7 +15,8 @@ raw_db_path = os.getenv('DATABASE_URL')
 project_root = os.path.dirname(__file__)
 db_path = raw_db_path.replace('%PROJECT_ROOT%', project_root)
 
-admin_password = os.getenv('ADMIN_PASSWORD')
+admin_password_hash = bcrypt.hashpw(os.getenv('ADMIN_PASSWORD').encode('utf8'), bcrypt.gensalt()) \
+	if os.getenv('ADMIN_PASSWORD') else None
 
 FLASK_ENV = env
 DEBUG = os.getenv('DEBUG') == 'True' if os.getenv('DEBUG') else env == 'development'

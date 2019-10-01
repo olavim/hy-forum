@@ -18,6 +18,7 @@ login_manager = LoginManager(app)
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 
+# Manager handles CLI stuff for Flask-Migrate
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
@@ -27,12 +28,14 @@ assets = Environment(app)
 js = Bundle('js/*', filters='rjsmin', output='js/gen/bundle.js')
 assets.register('js_all', js)
 
+# Register views
 import application.views.errors
 from .views.auth import mod as auth_module
 from .views.admin import mod as admin_module
 from .views.topics import mod as topics_module
 from .views.threads import mod as threads_module
 from .views.messages import mod as messages_module
+
 app.register_blueprint(auth_module)
 app.register_blueprint(admin_module)
 app.register_blueprint(topics_module)
@@ -45,3 +48,15 @@ import application.models.role
 import application.models.topic
 import application.models.thread
 import application.models.message
+
+# Turn foreign key support on in sqlite3. Needed for cascade constraints.
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
+from sqlite3 import Connection as SQLite3Connection
+
+@event.listens_for(Engine, 'connect')
+def _set_sqlite_pragma(dbapi_connection, connection_record):
+	if isinstance(dbapi_connection, SQLite3Connection):
+		cursor = dbapi_connection.cursor()
+		cursor.execute('PRAGMA foreign_keys=ON;')
+		cursor.close()

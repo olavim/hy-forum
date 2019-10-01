@@ -32,7 +32,6 @@
 								</td>
 								<td style="width: 10%">
 									<div>
-										{% if not role.name == 'admin' %}
 										<a href="{{ url_for('admin.edit_role', id=role.id) }}" class="icon-button mr-1" title="edit">
 											<i class="button mdi mdi-edit"></i>
 										</a>
@@ -42,7 +41,6 @@
 												<i class="button mdi mdi-delete"></i>
 											</button>
 										</form>
-										{% endif %}
 									</div>
 								</td>
 							</tr>
