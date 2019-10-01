@@ -19,8 +19,8 @@ class User(UserMixin, Base):
 	def __repr__(self):
 		return '<User id=%r username=%r>' % (self.id, self.username)
 
-	def has_role(self, role):
-		return any(role for role in self.roles if role.name == role)
+	def has_role(self, role_name):
+		return any(role for role in self.roles if role.name == role_name)
 
 	def has(self, permission):
 		return self.has_role('admin') \

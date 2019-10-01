@@ -6,7 +6,7 @@
 			<div class="metrics-item">Messages</div>
 			<div class="latest-message">Last message</div>
 			{% if current_user.is_authenticated %}
-			<div class="actions"></div>
+				<div class="actions"></div>
 			{% endif %}
 		</div>
 		{% for thread in threads %}
@@ -35,8 +35,8 @@
 						<div>No messages</div>
 					{% endif %}
 				</div>
-				{% if user %}
-				<div class="actions"></div>
+				{% if current_user.is_authenticated %}
+					<div class="actions"></div>
 				{% endif %}
 			</div>
 		{% endfor %}

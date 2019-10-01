@@ -23,7 +23,7 @@ def pull_lang_code(endpoint, values):
 def list():
 	return render_template('threads/list.html', topic=g.topic, threads=g.topic.threads)
 
-@mod.route('/<id>', methods=['DELETE'])
+@mod.route('/<id>/delete', methods=['POST'])
 @login_required
 def delete(id):
 	thread = Thread.query.get(id)
@@ -31,7 +31,7 @@ def delete(id):
 	if not thread:
 		abort(404)
 
-	if thread.user.id != current_user.id:
+	if not current_user.has('threads:delete') and thread.user.id != current_user.id:
 		abort(403)
 
 	db.session().delete(thread)

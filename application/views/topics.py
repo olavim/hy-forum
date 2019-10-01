@@ -1,6 +1,7 @@
 import os
 import bcrypt
 from flask import Blueprint, request, redirect, url_for, g, render_template, abort
+from ..decorators.auth import require_permission
 from ..main import db
 from ..models.user import User
 from ..models.topic import Topic
@@ -14,7 +15,8 @@ def list():
 	topics = Topic.query.all()
 	return render_template('topics/list.html', topics=topics)
 
-@mod.route('/topics/<id>', methods=['DELETE'])
+@mod.route('/topics/<id>/delete', methods=['POST'])
+@require_permission('topics:delete')
 def delete(id):
 	topic = Topic.query.get(id)
 
@@ -27,6 +29,7 @@ def delete(id):
 	return redirect(url_for('topics.list'))
 
 @mod.route('/topics/new', methods=['GET', 'POST'])
+@require_permission('topics:create')
 def create():
 	form = TopicForm(request.form)
 	if form.validate_on_submit():
@@ -39,6 +42,7 @@ def create():
 	return render_template('topics/create.html', form=form)
 
 @mod.route('/topics/<id>/edit', methods=['GET', 'POST'])
+@require_permission('topics:edit')
 def edit(id):
 	topic = Topic.query.get(id)
 

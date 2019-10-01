@@ -26,20 +26,22 @@
 				</div>
 				<div class="message-body flex-grow-1 pl-3">
 					<div class="message-body-top d-flex flex-row justify-content-between pb-2 border-bottom border-light text-muted">
-							<span class="message-created-timestamp" data-timestamp="{{ message.created_at }}"></span>
-							{% if message.user.id == current_user.id %}
-							<div class="message-actions">
+						<span class="message-created-timestamp" data-timestamp="{{ message.created_at }}"></span>
+						<div class="message-actions">
+							{% if current_user.has('messages:edit') or message.user.id == current_user.id %}
 								<a href="{{ url_for('messages.edit', topic_id=topic.id, thread_id=thread.id, id=message.id) }}" class="icon-button mr-1" title="edit">
 									<i class="button mdi mdi-edit"></i>
 								</a>
+							{% endif %}
+							{% if current_user.has('messages:delete') or message.user.id == current_user.id %}
 								<form method="POST" action="{{ url_for('messages.delete', topic_id=topic.id, thread_id=thread.id, id=message.id) }}" class="form">
 									{{ form.csrf_token }}
 									<button type="submit" class="icon-button" title="delete">
 										<i class="button mdi mdi-delete"></i>
 									</button>
 								</form>
-							</div>
 							{% endif %}
+						</div>
 					</div>
 					<div class="message-text pt-2">{{ message.text }}</div>
 				</div>

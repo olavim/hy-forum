@@ -48,7 +48,7 @@ def delete(id):
 	if not message:
 		abort(404)
 
-	if message.user.id != current_user.id:
+	if not current_user.has('messages:delete') and message.user.id != current_user.id:
 		abort(403)
 
 	db.session().delete(message)
@@ -64,7 +64,7 @@ def edit(id):
 	if not message:
 		abort(404)
 
-	if message.user.id != current_user.id:
+	if not current_user.has('messages:edit') and message.user.id != current_user.id:
 		abort(403)
 
 	form = EditMessageForm(request.form)
