@@ -4,10 +4,12 @@
 {% macro render_actions() %}
 <div class="mt-3 mb-3 d-flex">
 	<div class="d-flex flex-grow-1">
-		<a class="btn btn-primary" href="{{ url_for('messages.create', topic_id=topic.id, thread_id=thread.id) }}">
-			Post Reply
-			<i class="mdi mdi-reply ml-1"></i>
-		</a>
+		{% if current_user.is_authenticated %}
+			<a class="btn btn-primary" href="{{ url_for('messages.create', topic_id=topic.id, thread_id=thread.id) }}">
+				Post Reply
+				<i class="mdi mdi-reply ml-1"></i>
+			</a>
+		{% endif %}
 	</div>
 	<div class="d-flex text-muted align-items-center">
 		{{ total_messages }} {{ 'messages' if total_messages > 1 else 'message' }} •
@@ -21,8 +23,8 @@
 		<h1 class="header mb-3 text-muted">{{ thread.title }}</h1>
 		{% for message in messages %}
 			<div class="message-container d-flex flex-row bg-white shadow-sm p-3 rounded-lg overflow-hidden">
-				<div class="message-user-info">
-					{{ message.user.username }}
+				<div class="message-user-info {{ not message.user and 'deleted' }}">
+					{{ message.user.username if message.user else 'User deleted' }}
 				</div>
 				<div class="message-body flex-grow-1 pl-3">
 					<div class="message-body-top d-flex flex-row justify-content-between pb-2 border-bottom border-light text-muted">

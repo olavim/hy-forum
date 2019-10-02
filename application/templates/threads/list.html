@@ -28,7 +28,12 @@
 					{% set message = thread.latest_message() %}
 					{% if message %}
 						<div class="latest-message-username">
-							by <a href="#">{{ message.user.username }}</a>
+							by
+							{% if message.user %}
+								<a href="#">{{ message.user.username }}</a>
+							{% else %}
+								deleted
+							{% endif %}
 						</div>
 						<div class="latest-message-timestamp" data-timestamp="{{ message.created_at }}"></div>
 					{% else %}

@@ -231,6 +231,11 @@ html, body {
 		min-width: 5rem;
 		width: 10rem;
 		min-width: 10rem;
+
+		&.deleted {
+			color: $gray-600;
+			font-size: 1.3rem;
+		}
 	}
 
 	.message-text {
