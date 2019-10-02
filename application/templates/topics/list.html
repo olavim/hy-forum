@@ -1,4 +1,4 @@
-{% extends "base_breadcrumbs.html" %}
+{% extends "layout/base.html" %}
 {% block content %}
 	<div id="topics" class="category rounded-lg overflow-hidden shadow-sm bg-white">
 		<table>
@@ -42,9 +42,11 @@
 						</td>
 						{% if current_user.has('topics:edit') %}
 							<td class="actions">
-								<a href="{{ url_for('topics.edit', id=topic.id) }}" class="icon-button" title="edit">
-									<i class="button mdi mdi-edit"></i>
-								</a>
+								<div>
+									<a href="{{ url_for('topics.edit', id=topic.id) }}" class="icon-button" title="edit">
+										<i class="button mdi mdi-edit"></i>
+									</a>
+								</div>
 							</td>
 						{% endif %}
 					</tr>
