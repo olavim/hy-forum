@@ -28,6 +28,5 @@ def upgrade():
         sa.PrimaryKeyConstraint('role_id', 'user_id')
     )
 
-
 def downgrade():
     op.drop_table('role_membership')

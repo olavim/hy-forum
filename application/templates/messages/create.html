@@ -7,7 +7,7 @@
 		{% from "forms/macros.html" import render_field %}
 		<form method="POST" class="form p-2">
 			{{ form.csrf_token }}
-			{{ form.text(class="form-control mb-2", rows="6", placeholder="Type something...") }}
+			{{ render_field(form.text, label=False, rows='6', placeholder='Type something...') }}
 			<div class="d-flex justify-content-end">
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>

@@ -1,8 +1,10 @@
-{% macro render_field(field) %}
-	<div class="form-group row {{ 'was-validated' if field.errors else 'needs-validation' }}">
-		{{ field.label(class="field-label col-form-label") }}
+{% macro render_field(field, label=True) %}
+	<div class="form-group {{ label and 'row' }}">
+		{% if label %}
+			{{ field.label(class="field-label col-form-label") }}
+		{% endif %}
 		<div class="field-input">
-			{{ field(class="form-control", **kwargs) }}
+			{{ field(class='form-control is-invalid' if field.errors else 'form-control' , **kwargs) }}
 			{% if field.errors %}
 				{% for error in field.errors %}
 					<div class="invalid-feedback">{{ error|e }}</div>

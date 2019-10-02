@@ -1,13 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, SubmitField
-from wtforms.validators import Required
+from wtforms import validators, TextAreaField, SubmitField
 
 class MessageForm(FlaskForm):
-	text = TextAreaField('Text', [Required()])
+	text = TextAreaField('Text', [validators.required()])
 	submit = SubmitField("Create")
 
 class EditMessageForm(FlaskForm):
-	text = TextAreaField('Text', [Required()])
+	text = TextAreaField('Text', [validators.required()])
 	submit = SubmitField("Edit")
 
 class DeleteMessageForm(FlaskForm):

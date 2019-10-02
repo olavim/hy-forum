@@ -1,15 +1,15 @@
 from flask_wtf import FlaskForm
-from wtforms import TextField, PasswordField
-from wtforms.validators import Required, EqualTo
+from wtforms import validators, StringField, PasswordField
+from .validators import alnum, username_available, role_name_available
 
 class LoginForm(FlaskForm):
-	username = TextField('Username', [Required()])
-	password = PasswordField('Password', [Required()])
+	username = StringField('Username', [validators.required()])
+	password = PasswordField('Password', [validators.required()])
 
 class RegisterForm(FlaskForm):
-	username = TextField('Username', [Required()])
-	password = PasswordField('Password', [Required()])
+	username = StringField('Username', [validators.required(), validators.length(4, 16), alnum, username_available])
+	password = PasswordField('Password', [validators.required(), validators.length(4)])
 	confirm = PasswordField('Repeat Password', [
-		Required(),
-		EqualTo('password', message='Passwords must match')
+		validators.required(),
+		validators.equal_to('password', message='Passwords must match')
 	])

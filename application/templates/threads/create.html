@@ -7,16 +7,8 @@
 		{% from "forms/macros.html" import render_field %}
 		<form method="POST" class="form p-2">
 			{{ form.csrf_token }}
-			<div class="form-group">
-				<div class="field-input">
-					{{ form.title(class="form-control", placeholder="Title") }}
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="field-input">
-					{{ form.text(class="form-control mb-2", rows="6", placeholder="Message") }}
-				</div>
-			</div>
+			{{ render_field(form.title, label=False, placeholder='Title') }}
+			{{ render_field(form.text, label=False, rows='6', placeholder='Message') }}
 			<div class="form-group">
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>

@@ -1,6 +1,14 @@
 {% extends "base_breadcrumbs.html" %}
 {% block content %}
-	<div class="rounded-lg overflow-hidden shadow-sm bg-white">
+	<ul class="nav nav-pills nav-justified">
+		<li class="nav-item bg-white shadow-sm rounded-lg mr-1">
+			<a class="nav-link" href="{{ url_for('admin.users') }}">User management</a>
+		</li>
+		<li class="nav-item bg-white shadow-sm rounded-lg ml-1">
+			<a class="nav-link" href="{{ url_for('admin.roles') }}">Role management</a>
+		</li>
+	</ul>
+	<div class="rounded-lg overflow-hidden shadow-sm bg-white mt-2">
 		<div class="section-header border-bottom border-light p-2">
 			<span class="h5 text-muted">New Role</span>
 		</div>

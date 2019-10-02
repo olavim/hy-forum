@@ -1,8 +1,8 @@
-"""admin_user
+"""admin user
 
-Revision ID: 9f4b6d0a0891
-Revises: 2c84352ffc7b
-Create Date: 2019-10-01 21:52:42.543312
+Revision ID: 5ef5eb45fbd4
+Revises: 9f4b6d0a0891
+Create Date: 2019-10-02 15:14:40.830990
 
 """
 from alembic import op
@@ -12,8 +12,8 @@ from application.models.user import User
 from application.models.role import Role
 
 # revision identifiers, used by Alembic.
-revision = '9f4b6d0a0891'
-down_revision = '2c84352ffc7b'
+revision = '5ef5eb45fbd4'
+down_revision = '9f4b6d0a0891'
 branch_labels = None
 depends_on = None
 

@@ -1,10 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import TextField, TextAreaField
-from wtforms.validators import Required
+from wtforms import validators, TextField, TextAreaField
 
 class ThreadForm(FlaskForm):
-	title = TextField('Title', [Required()])
-	text = TextAreaField('Text', [Required()])
+	title = TextField('Title', [validators.required(), validators.length(4, 50)])
+	text = TextAreaField('Text', [validators.required()])
 
 class EditThreadForm(FlaskForm):
-	title = TextField('Title', [Required()])
+	title = TextField('Title', [validators.required(), validators.length(4, 50)])
