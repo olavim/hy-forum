@@ -42,12 +42,22 @@
 								<div>No messages</div>
 							{% endif %}
 						</td>
-						{% if current_user.has('threads:edit') %}
+						{% if current_user.has('threads:edit') or current_user.has('threads:delete') %}
 							<td class="actions">
-								<div>
-									<a href="{{ url_for('threads.edit', topic_id=topic.id, id=thread.id) }}" class="icon-button" title="edit">
-										<i class="button mdi mdi-edit"></i>
-									</a>
+								<div class="d-flex align-items-center">
+									{% if current_user.has('threads:edit') %}
+										<a href="{{ url_for('threads.edit', topic_id=topic.id, id=thread.id) }}" class="icon-button" title="edit">
+											<i class="button mdi mdi-edit"></i>
+										</a>
+									{% endif %}
+									{% if current_user.has('threads:delete') %}
+										<form method="POST" action="{{ url_for('threads.delete', topic_id=topic.id, id=thread.id) }}" class="form-inline ml-1">
+											{{ delete_form.csrf_token }}
+											<button type="submit" class="icon-button" title="delete">
+												<i class="button mdi mdi-delete"></i>
+											</button>
+										</form>
+									{% endif %}
 								</div>
 							</td>
 						{% endif %}

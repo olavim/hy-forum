@@ -5,7 +5,7 @@ from ..decorators.auth import require_permission
 from ..main import db
 from ..models.user import User
 from ..models.topic import Topic
-from ..forms.topic import TopicForm
+from ..forms.topic import TopicForm, DeleteTopicForm
 
 mod = Blueprint('topics', __name__, url_prefix='/')
 
@@ -13,7 +13,8 @@ mod = Blueprint('topics', __name__, url_prefix='/')
 @mod.route('/topics', methods=['GET'])
 def list():
 	topics = Topic.query.all()
-	return render_template('topics/list.html', topics=topics)
+	delete_form = DeleteTopicForm(request.form)
+	return render_template('topics/list.html', topics=topics, delete_form=delete_form)
 
 @mod.route('/topics/<id>/delete', methods=['POST'])
 @require_permission('topics:delete')

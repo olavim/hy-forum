@@ -33,19 +33,34 @@
 							{% set message = topic.latest_message() %}
 							{% if message %}
 								<div class="latest-message-username">
-									by <a href="#">{{ message.user.username }}</a>
+									by
+									{% if message.user %}
+										<a href="#">{{ message.user.username }}</a>
+									{% else %}
+										deleted
+									{% endif %}
 								</div>
 								<div class="latest-message-timestamp" data-timestamp="{{ message.created_at }}"></div>
 							{% else %}
 								<div>No messages</div>
 							{% endif %}
 						</td>
-						{% if current_user.has('topics:edit') %}
+						{% if current_user.has('topics:edit') or current_user.has('topics:delete') %}
 							<td class="actions">
-								<div>
-									<a href="{{ url_for('topics.edit', id=topic.id) }}" class="icon-button" title="edit">
-										<i class="button mdi mdi-edit"></i>
-									</a>
+								<div class="d-flex align-items-center">
+									{% if current_user.has('topics:edit') %}
+										<a href="{{ url_for('topics.edit', id=topic.id) }}" class="icon-button" title="edit">
+											<i class="button mdi mdi-edit"></i>
+										</a>
+									{% endif %}
+									{% if current_user.has('topics:delete') %}
+										<form method="POST" action="{{ url_for('topics.delete', id=topic.id) }}" class="form-inline ml-1">
+											{{ delete_form.csrf_token }}
+											<button type="submit" class="icon-button" title="delete">
+												<i class="button mdi mdi-delete"></i>
+											</button>
+										</form>
+									{% endif %}
 								</div>
 							</td>
 						{% endif %}

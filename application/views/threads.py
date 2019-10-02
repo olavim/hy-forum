@@ -7,7 +7,7 @@ from ..models.user import User
 from ..models.topic import Topic
 from ..models.thread import Thread
 from ..models.message import Message
-from ..forms.thread import ThreadForm, EditThreadForm
+from ..forms.thread import ThreadForm, EditThreadForm, DeleteThreadForm
 from ..decorators.auth import require_permission
 
 mod = Blueprint('threads', __name__, url_prefix='/topics/<topic_id>/threads')
@@ -22,18 +22,17 @@ def pull_lang_code(endpoint, values):
 
 @mod.route('/', methods=['GET'])
 def list():
-	return render_template('threads/list.html', topic=g.topic, threads=g.topic.threads)
+	delete_form = DeleteThreadForm(request.form)
+	return render_template('threads/list.html', topic=g.topic, threads=g.topic.threads, delete_form=delete_form)
 
 @mod.route('/<int:id>/delete', methods=['POST'])
 @login_required
+@require_permission('threads:delete')
 def delete(id):
 	thread = Thread.query.get(id)
 
 	if not thread:
 		abort(404)
-
-	if not current_user.has('threads:delete') and thread.user.id != current_user.id:
-		abort(403)
 
 	db.session().delete(thread)
 	db.session().commit()
