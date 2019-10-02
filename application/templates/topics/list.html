@@ -1,54 +1,56 @@
 {% extends "base_breadcrumbs.html" %}
 {% block content %}
 	<div id="topics" class="category rounded-lg overflow-hidden shadow-sm bg-white">
-		<div class="category-header section-header p-2 text-muted">
-			<div class="info">Topics</div>
-			<div class="metrics-item">Threads</div>
-			<div class="metrics-item">Messages</div>
-			<div class="latest-message">Last message</div>
-			{% if current_user.has('topics:edit') %}
-				<div class="actions"></div>
-			{% endif %}
-		</div>
-		{% for topic in topics %}
-			<div class="category-item">
-				<div class="info">
-					<div class="icon">
-						<i class="mdi mdi-folder-open"></i>
-					</div>
-					<div>
-						<div class="title">
-							<a href="{{ url_for('threads.list', topic_id=topic.id) }}">{{ topic.title }}</a>
-						</div>
-						<div class="description">
-							{{ topic.description }}
-						</div>
-					</div>
-				</div>
-				<div class="metrics">
-					<div class="metrics-item">{{ topic.total_threads() }}</div>
-					<div class="metrics-item">{{ topic.total_messages() }}</div>
-				</div>
-				<div class="latest-message">
-					{% set message = topic.latest_message() %}
-					{% if message %}
-						<div class="latest-message-username">
-							by <a href="#">{{ message.user.username }}</a>
-						</div>
-						<div class="latest-message-timestamp" data-timestamp="{{ message.created_at }}"></div>
-					{% else %}
-						<div>No messages</div>
+		<table>
+			<thead>
+				<tr class="category-header section-header">
+					<th class="info">Topics</div>
+					<th class="metrics-item">Threads</div>
+					<th class="metrics-item">Messages</div>
+					<th class="latest-message">Last message</div>
+					{% if current_user.has('topics:edit') %}
+						<th class="actions"></div>
 					{% endif %}
-				</div>
-				{% if current_user.has('topics:edit') %}
-					<div class="actions">
-						<a href="{{ url_for('topics.edit', id=topic.id) }}" class="icon-button" title="edit">
-							<i class="button mdi mdi-edit"></i>
-						</a>
-					</div>
-				{% endif %}
-			</div>
-		{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for topic in topics %}
+					<tr class="category-item">
+						<td class="info">
+							<div class="d-flex align-items-center">
+								<i class="icon mdi mdi-folder-open"></i>
+								<div>
+									<div class="title">
+										<a href="{{ url_for('threads.list', topic_id=topic.id) }}">{{ topic.title }}</a>
+									</div>
+									<div class="description">{{ topic.description }}</div>
+								</div>
+							</div>
+						</td>
+						<td class="metrics-item">{{ topic.total_threads() }}</td>
+						<td class="metrics-item">{{ topic.total_messages() }}</td>
+						<td class="latest-message">
+							{% set message = topic.latest_message() %}
+							{% if message %}
+								<div class="latest-message-username">
+									by <a href="#">{{ message.user.username }}</a>
+								</div>
+								<div class="latest-message-timestamp" data-timestamp="{{ message.created_at }}"></div>
+							{% else %}
+								<div>No messages</div>
+							{% endif %}
+						</td>
+						{% if current_user.has('topics:edit') %}
+							<td class="actions">
+								<a href="{{ url_for('topics.edit', id=topic.id) }}" class="icon-button" title="edit">
+									<i class="button mdi mdi-edit"></i>
+								</a>
+							</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
 	{% if current_user.has('topics:create') %}
 		<a class="btn btn-primary mt-3" href="{{ url_for('topics.create') }}">New Topic</a>
