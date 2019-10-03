@@ -91,10 +91,6 @@ def add_user_role(id):
 
 	if form.validate_on_submit():
 		role = Role.query.filter_by(name=form.role.data).first()
-
-		if role.name == 'admin':
-			abort(403)
-
 		user.roles.append(role)
 		db.session().commit()
 

@@ -19,7 +19,7 @@ class Role(Base):
 	@classmethod
 	def choices(cls):
 		roles = Role.query.all()
-		return [(r.name, r.name) for r in roles if r.name != 'admin']
+		return [(r.name, r.name) for r in roles]
 
 class Permission(Base):
 	__tablename__ = 'permission'
