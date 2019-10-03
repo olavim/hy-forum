@@ -18,7 +18,11 @@ def check_admin_login(user, input_password):
 	)
 
 def check_user_login(user, input_password):
-	return user and bcrypt.checkpw(input_password, user.password_hash.encode('utf8'))
+	return (
+		user and
+		user.username != 'admin' and
+		bcrypt.checkpw(input_password, user.password_hash.encode('utf8'))
+	)
 
 @mod.route('/login', methods=['GET', 'POST'])
 def login():
