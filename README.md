@@ -14,9 +14,9 @@ A slightly modified version of the example topic "Keskustelufoorumi".
 
 Aims to be a simplistic Internet message board, where users can create message threads inside a topic. A topic might be something like "Sports", while a message thread in said topic might discuss the Olympics.
 
-# Testing locally
+# Running locally
 
-**1.** Rename the environment configuration file and edit it to fit your needs.
+**1.** Rename the environment configuration file and edit it to fit your needs. See [configuration instructions](documentation/configuration.md) for more info.
 
 ```
 $ cp .env.dist .env
@@ -48,14 +48,31 @@ $ python run.py db --help
 
 # Documentation
 
+### Technical
+
 - [Database Relationship Diagram (Planned)](documentation/db-diagram.png)
 - [Database Relationship Diagram (Current)](documentation/db-diagram-current.png)
 - [User Stories](documentation/user-stories.md)
+- [Configuration](documentation/configuration.md)
+
+### Guides
+
+- [User roles and permissions](documentation/admin.md)
 
 ## For the reviewer
 
 [Register](https://hy-forum.herokuapp.com/register) as a new user and you can fiddle around as much as you want.
 
-You can alternatively [login](https://hy-forum.herokuapp.com/login) as the test user:
+You can alternatively [login](https://hy-forum.herokuapp.com/login) as one of the following test users:
+
+#### Basic user
 - Username: test
+- Password: 1234
+
+#### Moderator
+- Username: test-mod
+- Password: 1234
+
+#### Administrator
+- Username: test-admin
 - Password: 1234
