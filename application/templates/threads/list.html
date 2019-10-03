@@ -4,11 +4,11 @@
 		<table>
 			<thead>
 				<tr class="category-header section-header">
-					<td class="info">Threads</td>
-					<td class="metrics-item">Messages</td>
-					<td class="latest-message">Last message</td>
+					<th class="info">Threads</td>
+					<th class="metrics-item">Messages</td>
+					<th class="latest-message">Last message</td>
 					{% if current_user.has('threads:edit') %}
-						<td class="actions"></td>
+						<th class="actions"></td>
 					{% endif %}
 				</tr>
 			</thead>

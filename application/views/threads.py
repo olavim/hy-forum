@@ -29,14 +29,8 @@ def list():
 @login_required
 @require_permission('threads:delete')
 def delete(id):
-	thread = Thread.query.get(id)
-
-	if not thread:
-		abort(404)
-
-	db.session().delete(thread)
+	Thread.query.filter(Thread.id == id).delete()
 	db.session().commit()
-
 	return redirect(url_for('threads.list', topic_id=g.topic.id))
 
 @mod.route('/new', methods=['GET', 'POST'])

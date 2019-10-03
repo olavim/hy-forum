@@ -3,11 +3,11 @@ from wtforms import validators, TextAreaField, SubmitField
 
 class MessageForm(FlaskForm):
 	text = TextAreaField('Text', [validators.required()])
-	submit = SubmitField("Create")
+	submit = SubmitField("Submit")
 
 class EditMessageForm(FlaskForm):
 	text = TextAreaField('Text', [validators.required()])
-	submit = SubmitField("Edit")
+	submit = SubmitField("Save")
 
 class DeleteMessageForm(FlaskForm):
 	submit = SubmitField("Delete")

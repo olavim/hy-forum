@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.sql import text
 from ..main import db
 from .base import Base
@@ -12,7 +12,7 @@ class Topic(Base):
 	title = Column(String(255))
 	description = Column(String(255))
 
-	threads = relationship('Thread')
+	threads = relationship('Thread', backref='topic')
 
 	def __init__(self, title=None, description=None):
 		self.title = title

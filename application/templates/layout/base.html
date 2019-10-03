@@ -15,7 +15,7 @@
 	</head>
 	<body class="bg-light">
 		{% block header %}
-		<header id="header" class="pb-5 bg-theme-gradient">
+		<header id="header" class="pb-5 pl-4 pr-4 bg-theme-gradient">
 			<div id="header-body" class="navbar navbar-expand pl-0 pr-0">
 				<ul class="navbar-nav">
 					<li class="nav-item">
@@ -60,31 +60,48 @@
 		</header>
 		{% endblock %}
 		<div id="content" class="ml-4 mr-4">
-			<nav id="breadcrumbs" class="mb-3 bg-white shadow-sm rounded-lg">
-				<ol class="breadcrumb p-2 m-0 text-dark bg-transparent border-bottom border-light">
-					{% block breadcrumbs %}
-						<li class="breadcrumb-item">
-							<a href="{{ url_for('topics.list') }}">
-								<i class="mdi mdi-home"></i>
-								<span>Board index</span>
-							</a>
-						</li>
-						{% if topic %}
-						<li class="breadcrumb-item">
-							<a href="{{ url_for('threads.list', topic_id=topic.id) }}">
-								<span>{{ topic.title }}</span>
-							</a>
-						</li>
-						{% endif %}
-						{% if thread %}
-						<li class="breadcrumb-item">
-							<a href="{{ url_for('messages.list', topic_id=topic.id, thread_id=thread.id) }}">
-								<span>{{ thread.title }}</span>
-							</a>
-						</li>
-						{% endif %}
-					{% endblock %}
-				</ol>
+			<div id="breadcrumbs" class="mb-3 bg-white shadow-sm rounded-lg">
+				<div class="d-flex p-1 m-0 text-dark border-bottom border-light">
+					<ul class="breadcrumb bg-transparent mb-0 flex-grow-1">
+						{% block breadcrumbs %}
+							<li class="breadcrumb-item">
+								<a href="{{ url_for('topics.list') }}">
+									<i class="mdi mdi-home"></i>
+									<span>Board index</span>
+								</a>
+							</li>
+							{% if topic %}
+							<li class="breadcrumb-item">
+								<a href="{{ url_for('threads.list', topic_id=topic.id) }}">
+									<span>{{ topic.title }}</span>
+								</a>
+							</li>
+							{% endif %}
+							{% if thread %}
+							<li class="breadcrumb-item">
+								<a href="{{ url_for('messages.list', topic_id=topic.id, thread_id=thread.id) }}">
+									<span>{{ thread.title }}</span>
+								</a>
+							</li>
+							{% endif %}
+						{% endblock %}
+					</ul>
+					<form method="POST" class="form-inline" action="{{ url_for('search.search') }}">
+						{{ search_form.csrf_token }}
+						{{ search_form.search_threads }}
+						{{ search_form.search_messages }}
+						<div class="form-group mr-1">
+							<div class="field-input">
+								{{ search_form.query(class='form-control', placeholder='Search...') }}
+							</div>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary">
+								<i class="mdi mdi-search"></i>
+							</button>
+						</div>
+					</form>
+				</div>
 				<div class="p-2 text-muted d-flex">
 					<div class="flex-grow-1">
 						{% if current_user.is_authenticated %}
@@ -98,7 +115,7 @@
 						<span data-timestamp="now"></span>
 					</div>
 				</div>
-			</nav>
+			</div>
 			<div id="content-body">
 				{% block content %}{% endblock %}
 			</div>

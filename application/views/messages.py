@@ -40,7 +40,7 @@ def create():
 
 	return render_template('messages/create.html', form=form, topic=g.topic, thread=g.thread, messages=g.thread.messages)
 
-@mod.route('/messages/<id>/delete', methods=['POST'])
+@mod.route('/messages/<int:id>/delete', methods=['POST'])
 @login_required
 def delete(id):
 	message = Message.query.get(id)
@@ -56,7 +56,7 @@ def delete(id):
 
 	return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
 
-@mod.route('/messages/<id>/edit', methods=['GET', 'POST'])
+@mod.route('/messages/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit(id):
 	message = Message.query.get(id)

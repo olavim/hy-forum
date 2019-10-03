@@ -1,0 +1,89 @@
+{% extends "layout/base.html" %}
+{% block content %}
+	<div class="rounded-lg overflow-hidden shadow-sm bg-white">
+		<div class="section-header border-bottom border-light p-2">
+			<span class="h5 text-muted">Search Results</span>
+		</div>
+		{% from "forms/macros.html" import render_field %}
+		<form method="POST" class="form p-2">
+			{{ form.csrf_token }}
+			{{ render_field(form.query, placeholder='Search...') }}
+			<fieldset class="form-group row">
+				<div class="d-flex">
+					<legend class="field-label col-form-label pt-0 pb-0">Search in</legend>
+					<div class="field-input">
+						<div class="form-check">
+							{{ form.search_threads(class='form-check-input') }}
+							{{ form.search_threads.label(class='form-check-label ml-1') }}
+						</div>
+						<div class="form-check">
+							{{ form.search_messages(class='form-check-input') }}
+							{{ form.search_messages.label(class='form-check-label ml-1') }}
+						</div>
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-group row">
+				<div class="field-label"></div>
+				<div>{{ form.submit(class='btn btn-primary') }}</div>
+			</div>
+		</form>
+	</div>
+	<div class="rounded-lg overflow-hidden shadow-sm bg-white mt-2">
+		<table id="search-results">
+			<thead>
+				<tr class="category-header section-header">
+					<th class="">Type</td>
+					<th class="">Result</td>
+					<th class="">Details</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for r in results %}
+					<tr>
+						<td class="type">
+							<div>{{ r.type }}</div>
+						</td>
+						<td class="result">
+							<div>
+								{% if r.type == 'message' %}
+									<pre>{{ r.result }}</pre>
+								{% else %}
+									<a href="{{ url_for('messages.list', topic_id=r.topic.id, thread_id=r.thread.id) }}">{{ r.result }}</a>
+								{% endif %}
+							</div>
+						</td>
+						<td class="details">
+							<div>
+								<div>
+									<span>Topic:</span>
+									<a href="{{ url_for('threads.list', topic_id=r.topic.id) }}">
+										{{ r.topic.title }}
+									</a>
+								</div>
+								<div>
+									<span>Thread:</span>
+									<a href="{{ url_for('messages.list', topic_id=r.topic.id, thread_id=r.thread.id) }}">
+										{{ r.thread.title }}
+									</a>
+								</div>
+								<div>
+									<span>Created by:</span>
+									{% if r.user %}
+										<a href="#">{{ r.user.username }}</a>
+									{% else %}
+										<span class="text-muted">deleted</span>
+									{% endif %}
+								</div>
+								<div>
+									<span class="text-muted">on</span>
+									<span class="text-muted" data-timestamp="{{ r.timestamp }}"></span>
+								</div>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

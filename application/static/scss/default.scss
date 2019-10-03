@@ -19,8 +19,34 @@ html, body {
 	background-color: #ffffff;
 }
 
+pre {
+	margin-bottom: 0;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	white-space: pre-wrap;
+}
+
 table {
 	width: 100%;
+
+	td, th {
+		padding-left: $spacer * 0.5;
+		padding-right: $spacer;
+	}
+
+	th {
+		font-weight: 500;
+	}
+
+	td {
+		padding-top: 1.6rem;
+		padding-bottom: 1.6rem;
+	}
+
+	tr:not(:last-child) {
+		border-bottom: 1px solid $gray-200;
+	}
 }
 
 .bg-theme-gradient {
@@ -82,8 +108,6 @@ table {
 .category {
 	.info {
 		min-width: 12rem;
-		padding-left: $spacer * 0.5;
-		padding-right: $spacer * 0.5;
 	}
 
 	.metrics-item {
@@ -106,10 +130,6 @@ table {
 	}
 
 	.category-header {
-		.info {
-			font-weight: 500;
-		}
-
 		.metrics-item {
 			font-weight: 400;
 		}
@@ -120,12 +140,7 @@ table {
 	}
 
 	.category-item {
-		height: 7rem;
 		background-color: $white;
-
-		&:not(:last-child) {
-			border-bottom: 1px solid $gray-200;
-		}
 
 		.info {
 			.icon {
@@ -240,4 +255,41 @@ table {
 	font-weight: 500;
 	color: $gray-600;
 	border-bottom: 1px solid $gray-200;
+}
+
+#search-results {
+	td {
+		vertical-align: top;
+	}
+
+	a {
+		font-weight: 500;
+	}
+
+	.type {
+		text-transform: capitalize;
+		color: $gray-600;
+		font-weight: 400;
+		font-size: 1.3rem;
+	}
+
+	.result {
+		width: 100%;
+
+		pre {
+			color: $gray-700;
+		}
+	}
+
+	.details {
+		min-width: 20rem;
+
+		& > div > div:not(:first-child) {
+			margin-top: 0.5rem;
+		}
+
+		span {
+			color: $gray-700;
+		}
+	}
 }

@@ -5,7 +5,7 @@ from ..decorators.auth import require_permission
 from ..main import db
 from ..models.user import User
 from ..models.topic import Topic
-from ..forms.topic import TopicForm, DeleteTopicForm
+from ..forms.topic import TopicForm, EditTopicForm, DeleteTopicForm
 
 mod = Blueprint('topics', __name__, url_prefix='/')
 
@@ -16,17 +16,11 @@ def list():
 	delete_form = DeleteTopicForm(request.form)
 	return render_template('topics/list.html', topics=topics, delete_form=delete_form)
 
-@mod.route('/topics/<id>/delete', methods=['POST'])
+@mod.route('/topics/<int:id>/delete', methods=['POST'])
 @require_permission('topics:delete')
 def delete(id):
-	topic = Topic.query.get(id)
-
-	if not topic:
-		abort(404)
-
-	db.session().delete(topic)
+	Topic.query.filter(Topic.id == id).delete()
 	db.session().commit()
-
 	return redirect(url_for('topics.list'))
 
 @mod.route('/topics/new', methods=['GET', 'POST'])
@@ -42,7 +36,7 @@ def create():
 
 	return render_template('topics/create.html', form=form)
 
-@mod.route('/topics/<id>/edit', methods=['GET', 'POST'])
+@mod.route('/topics/<int:id>/edit', methods=['GET', 'POST'])
 @require_permission('topics:edit')
 def edit(id):
 	topic = Topic.query.get(id)
@@ -50,7 +44,7 @@ def edit(id):
 	if not topic:
 		abort(404)
 
-	form = TopicForm(request.form)
+	form = EditTopicForm(request.form)
 	if form.validate_on_submit():
 		topic.title = form.title.data
 		topic.description = form.description.data

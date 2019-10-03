@@ -9,7 +9,6 @@ class Message(Base):
 	thread_id = Column(Integer, ForeignKey('thread.id'))
 	user_id = Column(Integer, ForeignKey('user.id'))
 
-	thread = relationship('Thread')
 	user = relationship('User')
 
 	def __init__(self, text=None, thread_id=None, user_id=None):

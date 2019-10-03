@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.sql import text
 from ..main import db
 from .base import Base
@@ -13,7 +13,7 @@ class Thread(Base):
 	user_id = Column(Integer, ForeignKey('user.id'))
 
 	user = relationship('User')
-	messages = relationship('Message')
+	messages = relationship('Message', backref='thread')
 
 	def __init__(self, title=None, topic_id=None, user_id=None):
 		self.title = title
