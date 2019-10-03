@@ -72,6 +72,8 @@ def edit_user(id):
 		db.session().commit()
 
 	role_form = UserRoleForm(request.form)
+	role_form.role.choices = Role.choices()
+
 	delete_role_form = DeleteUserRoleForm(request.form)
 	return render_template('admin/edit_user.html', user=user, form=form, role_form=role_form, delete_role_form=delete_role_form)
 
@@ -88,6 +90,7 @@ def add_user_role(id):
 		abort(403)
 
 	form = UserRoleForm(request.form)
+	form.role.choices = Role.choices()
 
 	if form.validate_on_submit():
 		role = Role.query.filter_by(name=form.role.data).first()
@@ -130,6 +133,8 @@ def edit_role(id):
 		db.session().commit()
 
 	permission_form = RolePermissionForm(request.form)
+	permission_form.permission.choices = Permission.choices()
+
 	delete_permission_form = DeleteRolePermissionForm(request.form)
 	return render_template('admin/edit_role.html', role=role, form=form, permission_form=permission_form, delete_permission_form=delete_permission_form)
 
@@ -157,6 +162,7 @@ def add_role_permission(id):
 		abort(404)
 
 	form = RolePermissionForm(request.form)
+	form.permission.choices = Permission.choices()
 
 	if form.validate_on_submit():
 		permission = Permission.query.filter_by(permission=form.permission.data).first()
