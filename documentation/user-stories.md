@@ -1,8 +1,8 @@
 # User stories
 
 - [x] As a guest, I can list existing topics, threads, and messages.
-- [ ] As a guest, I can search for threads by their title.
-- [ ] As a guest, I can search for messages inside a thread by their content.
+- [x] As a guest, I can search for threads by their title.
+- [x] As a guest, I can search for messages by their content.
 - [x] As a user, I can post new messages to threads.
 - [x] As a user, I can edit and delete my own messages.
 - [x] As a user, I can create new threads with a given title.
