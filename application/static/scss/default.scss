@@ -250,11 +250,19 @@ table {
 }
 
 .section-header {
-	height: 5rem;
+	padding: $spacer * 0.5;
 	font-size: 1.4rem;
 	font-weight: 500;
+	line-height: 1.2;
 	color: $gray-600;
 	border-bottom: 1px solid $gray-200;
+}
+
+tr.section-header {
+	th {
+		padding-top: $spacer * 0.5;
+		padding-bottom: $spacer * 0.5;
+	}
 }
 
 #search-results {

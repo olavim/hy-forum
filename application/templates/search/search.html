@@ -1,8 +1,8 @@
 {% extends "layout/base.html" %}
 {% block content %}
 	<div class="rounded-lg overflow-hidden shadow-sm bg-white">
-		<div class="section-header border-bottom border-light p-2">
-			<span class="h5 text-muted">Search Results</span>
+		<div class="section-header">
+			<h5 class="text-muted mb-0">Search Options</h5>
 		</div>
 		{% from "forms/macros.html" import render_field %}
 		<form method="POST" class="form p-2">
@@ -30,12 +30,12 @@
 		</form>
 	</div>
 	<div class="rounded-lg overflow-hidden shadow-sm bg-white mt-2">
-		<table id="search-results">
+		<table id="search-results" aria-label="search results">
 			<thead>
-				<tr class="category-header section-header">
-					<th class="">Type</td>
-					<th class="">Result</td>
-					<th class="">Details</td>
+				<tr class="section-header">
+					<th>Type</th>
+					<th>Result</th>
+					<th>Details</th>
 				</tr>
 			</thead>
 			<tbody>
