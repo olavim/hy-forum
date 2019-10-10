@@ -32,7 +32,7 @@
 									<div>
 										{% if not user.username == 'admin' %}
 										<a href="{{ url_for('admin.edit_user', id=user.id) }}" class="icon-button" title="edit">
-											<i class="button mdi mdi-edit"></i>
+											<i class="button mdi">edit</i>
 										</a>
 										{% endif %}
 									</div>

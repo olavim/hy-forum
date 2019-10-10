@@ -7,7 +7,7 @@
 		{% if current_user.is_authenticated %}
 			<a class="btn btn-primary" href="{{ url_for('messages.create', topic_id=topic.id, thread_id=thread.id) }}">
 				Post Reply
-				<i class="mdi mdi-reply ml-1"></i>
+				<i class="mdi ml-1">reply</i>
 			</a>
 		{% endif %}
 	</div>
@@ -32,14 +32,14 @@
 						<div class="message-actions">
 							{% if current_user.has('messages:edit') or message.user.id == current_user.id %}
 								<a href="{{ url_for('messages.edit', topic_id=topic.id, thread_id=thread.id, id=message.id) }}" class="icon-button mr-1" title="edit">
-									<i class="button mdi mdi-edit"></i>
+									<i class="button mdi">edit</i>
 								</a>
 							{% endif %}
 							{% if current_user.has('messages:delete') or message.user.id == current_user.id %}
 								<form method="POST" action="{{ url_for('messages.delete', topic_id=topic.id, thread_id=thread.id, id=message.id) }}" class="form">
 									{{ form.csrf_token }}
 									<button type="submit" class="icon-button" title="delete">
-										<i class="button mdi mdi-delete"></i>
+										<i class="button mdi">delete</i>
 									</button>
 								</form>
 							{% endif %}

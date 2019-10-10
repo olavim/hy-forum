@@ -17,7 +17,7 @@
 					<tr class="category-item">
 						<td class="info">
 							<div class="d-flex align-items-center">
-								<i class="icon mdi mdi-folder-open"></i>
+								<i class="icon mdi">folder_open</i>
 								<div class="title">
 									<a href="{{ url_for('messages.list', topic_id=topic.id, thread_id=thread.id) }}">
 										{{ thread.title }}
@@ -47,14 +47,14 @@
 								<div class="d-flex align-items-center">
 									{% if current_user.has('threads:edit') %}
 										<a href="{{ url_for('threads.edit', topic_id=topic.id, id=thread.id) }}" class="icon-button" title="edit">
-											<i class="button mdi mdi-edit"></i>
+											<i class="button mdi">edit</i>
 										</a>
 									{% endif %}
 									{% if current_user.has('threads:delete') %}
 										<form method="POST" action="{{ url_for('threads.delete', topic_id=topic.id, id=thread.id) }}" class="form-inline ml-1">
 											{{ delete_form.csrf_token }}
 											<button type="submit" class="icon-button" title="delete">
-												<i class="button mdi mdi-delete"></i>
+												<i class="button mdi">delete</i>
 											</button>
 										</form>
 									{% endif %}

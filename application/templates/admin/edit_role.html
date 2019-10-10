@@ -37,7 +37,7 @@
 									<form method="POST" action="{{ url_for('admin.delete_role_permission', id=role.id, permission_id=permission.id) }}" class="form d-flex align-items-center">
 										{{ delete_permission_form.csrf_token }}
 										<button type="submit" class="icon-button" title="delete">
-											<i class="button mdi mdi-delete"></i>
+											<i class="button mdi">delete</i>
 										</button>
 									</form>
 								</li>

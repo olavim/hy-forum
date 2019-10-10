@@ -20,14 +20,14 @@
 				<ul class="navbar-nav">
 					<li class="nav-item">
 						<a class="navbar-brand" href="/">
-							<i class="mdi mdi-home"></i>
+							<i class="mdi">home</i>
 							<span>Forum</span>
 						</a>
 					</li>
 					{% if current_user.has('roles:manage') %}
 						<li class="nav-item">
 							<a class="navbar-brand" href="{{ url_for('admin.users') }}">
-								<i class="mdi mdi-build"></i>
+								<i class="mdi">build</i>
 								<span>Admin</span>
 							</a>
 						</li>
@@ -37,20 +37,20 @@
 					{% if current_user.is_authenticated %}
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('auth.logout') }}">
-							<i class="mdi mdi-power-settings-new"></i>
+							<i class="mdi">power_settings_new</i>
 							<span>Logout</span>
 						</a>
 					</li>
 					{% else %}
 					<li class="nav-item mr-1">
 						<a class="nav-link" href="{{ url_for('auth.register') }}">
-							<i class="mdi mdi-person-add"></i>
+							<i class="mdi">person_add</i>
 							<span>Register</span>
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('auth.login') }}">
-							<i class="mdi mdi-power-settings-new"></i>
+							<i class="mdi">power_settings_new</i>
 							<span>Login</span>
 						</a>
 					</li>
@@ -66,7 +66,7 @@
 						{% block breadcrumbs %}
 							<li class="breadcrumb-item">
 								<a href="{{ url_for('topics.list') }}">
-									<i class="mdi mdi-home"></i>
+									<i class="mdi">home</i>
 									<span>Board index</span>
 								</a>
 							</li>
@@ -97,7 +97,7 @@
 						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-primary">
-								<i class="mdi mdi-search"></i>
+								<i class="mdi">search</i>
 							</button>
 						</div>
 					</form>

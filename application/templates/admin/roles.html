@@ -33,12 +33,12 @@
 								<td style="width: 10%">
 									<div>
 										<a href="{{ url_for('admin.edit_role', id=role.id) }}" class="icon-button mr-1" title="edit">
-											<i class="button mdi mdi-edit"></i>
+											<i class="button mdi">edit</i>
 										</a>
 										<form method="POST" action="{{ url_for('admin.delete_role', id=role.id) }}" class="form">
 											{{ delete_role_form.csrf_token }}
 											<button type="submit" class="icon-button" title="delete">
-												<i class="button mdi mdi-delete"></i>
+												<i class="button mdi">delete</i>
 											</button>
 										</form>
 									</div>
