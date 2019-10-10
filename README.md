@@ -57,6 +57,7 @@ $ python run.py db --help
 
 ### Guides
 
+- [Basic usage](documentation/usage.md)
 - [User roles and permissions](documentation/admin.md)
 
 ## For the reviewer
