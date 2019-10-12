@@ -50,8 +50,7 @@ $ python run.py db --help
 
 ### Technical
 
-- [Database Relationship Diagram (Planned)](documentation/db-diagram.png)
-- [Database Relationship Diagram (Current)](documentation/db-diagram-current.png)
+- [Database Relationship Diagram](documentation/db-diagram.png)
 - [Database Schema](documentation/db-schema.md)
 - [User Stories](documentation/user-stories.md)
 - [Configuration](documentation/configuration.md)

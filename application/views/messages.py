@@ -1,13 +1,14 @@
 import os
 import bcrypt
 import math
+from sqlalchemy_utc.now import utcnow
 from flask import Blueprint, request, redirect, url_for, g, render_template, abort
 from flask_login import current_user, login_required
 from config import page_size
 from ..main import db
 from ..models.user import User
 from ..models.topic import Topic
-from ..models.thread import Thread
+from ..models.thread import Thread, ThreadRead
 from ..models.message import Message
 from ..forms.message import MessageForm, EditMessageForm, DeleteMessageForm
 
@@ -35,6 +36,16 @@ def list():
 
 	messages = message_query.items
 	total = message_query.total
+
+	thread_read = ThreadRead.query.get((g.thread.id, current_user.id))
+
+	if not thread_read:
+		thread_read = ThreadRead(g.thread.id, current_user.id)
+		db.session().add(thread_read)
+		db.session().commit()
+
+	thread_read.updated_at = utcnow()
+	db.session().commit()
 
 	form = DeleteMessageForm(request.form)
 	return render_template('messages/list.html', messages=messages, total=total, page=page, form=form)

@@ -158,6 +158,10 @@ table {
 				padding-right: $spacer * 0.75;
 			}
 
+			.icon.unread {
+				color: rgba(0, 119, 255, 0.3);
+			}
+
 			.title {
 				a {
 					font-weight: 500;

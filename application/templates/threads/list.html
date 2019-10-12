@@ -17,7 +17,10 @@
 					<tr class="category-item">
 						<td class="info">
 							<div class="d-flex align-items-center">
-								<i class="icon mdi">folder_open</i>
+								{% set new_msg = thread.has_new_messages() %}
+								<i class="icon mdi {{ new_msg and 'unread' }}">
+									{{ 'chat_bubble' if new_msg else 'chat_bubble_outline' }}
+								</i>
 								<div class="title">
 									<a href="{{ url_for('messages.list', topic_id=topic.id, thread_id=thread.id) }}">
 										{{ thread.title }}

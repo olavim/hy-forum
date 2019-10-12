@@ -1,8 +1,9 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.sql import text
+from flask_login import current_user
 from ..main import db
-from .base import Base
+from .base import Base, TimestampBase
 from .message import Message
 
 class Thread(Base):
@@ -38,3 +39,26 @@ class Thread(Base):
 			.order_by(Message.created_at.desc()) \
 			.first()
 		return message
+
+	def has_new_messages(self):
+		if not current_user.is_authenticated:
+			return False
+
+		thread_read = ThreadRead.query.get((self.id, current_user.id))
+		return not thread_read or self.latest_message().created_at > thread_read.updated_at
+
+class ThreadRead(TimestampBase):
+	__tablename__ = 'thread_read'
+
+	thread_id = Column(Integer, ForeignKey('thread.id'), primary_key=True)
+	user_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
+
+	thread = relationship('Thread', cascade='delete')
+	user = relationship('User', cascade='delete')
+
+	def __init__(self, thread_id=None, user_id=None):
+		self.thread_id = thread_id
+		self.user_id = user_id
+
+	def __repr__(self):
+		return '<ThreadRead thread_id=%r user_id=%r>' % (self.thread_id, self.user_id)
