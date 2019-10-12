@@ -70,17 +70,17 @@
 									<span>Board index</span>
 								</a>
 							</li>
-							{% if topic %}
+							{% if g.topic %}
 							<li class="breadcrumb-item">
-								<a href="{{ url_for('threads.list', topic_id=topic.id) }}">
-									<span>{{ topic.title }}</span>
+								<a href="{{ url_for('threads.list', topic_id=g.topic.id) }}">
+									<span>{{ g.topic.title }}</span>
 								</a>
 							</li>
 							{% endif %}
-							{% if thread %}
+							{% if g.thread %}
 							<li class="breadcrumb-item">
-								<a href="{{ url_for('messages.list', topic_id=topic.id, thread_id=thread.id) }}">
-									<span>{{ thread.title }}</span>
+								<a href="{{ url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id) }}">
+									<span>{{ g.thread.title }}</span>
 								</a>
 							</li>
 							{% endif %}

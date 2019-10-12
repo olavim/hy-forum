@@ -4,7 +4,7 @@
 		<div class="section-header">
 			<h5 class="text-muted mb-0">Search Options</h5>
 		</div>
-		{% from "forms/macros.html" import render_field %}
+		{% from "macros.html" import render_field %}
 		<form method="POST" class="form p-2">
 			{{ form.csrf_token }}
 			{{ render_field(form.query, placeholder='Search...') }}

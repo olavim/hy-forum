@@ -14,6 +14,7 @@ env = os.getenv('FLASK_ENV', 'development')
 raw_db_path = os.getenv('DATABASE_URL')
 project_root = os.path.dirname(__file__)
 db_path = raw_db_path.replace('%PROJECT_ROOT%', project_root)
+page_size = 10
 
 admin_password_hash = bcrypt.hashpw(os.getenv('ADMIN_PASSWORD').encode('utf8'), bcrypt.gensalt()) \
 	if os.getenv('ADMIN_PASSWORD') else None

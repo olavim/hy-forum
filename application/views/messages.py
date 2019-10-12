@@ -1,7 +1,9 @@
 import os
 import bcrypt
+import math
 from flask import Blueprint, request, redirect, url_for, g, render_template, abort
 from flask_login import current_user, login_required
+from config import page_size
 from ..main import db
 from ..models.user import User
 from ..models.topic import Topic
@@ -24,8 +26,18 @@ def pull_lang_code(endpoint, values):
 @mod.route('/', methods=['GET'])
 @mod.route('/messages', methods=['GET'])
 def list():
+	page = int(request.args.get('page') or '1')
+
+	message_query = Message.query \
+		.filter(Message.thread_id == g.thread.id) \
+		.order_by(Message.created_at.asc()) \
+		.paginate(page, page_size, False)
+
+	messages = message_query.items
+	total = message_query.total
+
 	form = DeleteMessageForm(request.form)
-	return render_template('messages/list.html', topic=g.topic, thread=g.thread, messages=g.thread.messages, form=form)
+	return render_template('messages/list.html', messages=messages, total=total, page=page, form=form)
 
 @mod.route('/messages/new', methods=['GET', 'POST'])
 @login_required
@@ -36,13 +48,18 @@ def create():
 		db.session().add(message)
 		db.session().commit()
 
-		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
+		# Redirect user to last page
+		total_messages = Message.query.filter(Message.thread_id == g.thread.id).count()
+		last_page = int(math.ceil(total_messages / page_size))
 
-	return render_template('messages/create.html', form=form, topic=g.topic, thread=g.thread, messages=g.thread.messages)
+		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id, page=last_page))
+
+	return render_template('messages/create.html', form=form, messages=g.thread.messages)
 
 @mod.route('/messages/<int:id>/delete', methods=['POST'])
 @login_required
 def delete(id):
+	page = int(request.args.get('page') or '1')
 	message = Message.query.get(id)
 
 	if not message:
@@ -54,11 +71,12 @@ def delete(id):
 	db.session().delete(message)
 	db.session().commit()
 
-	return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
+	return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id, page=page))
 
 @mod.route('/messages/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit(id):
+	page = int(request.args.get('page') or '1')
 	message = Message.query.get(id)
 
 	if not message:
@@ -73,8 +91,8 @@ def edit(id):
 		message.text = form.text.data
 		db.session().commit()
 
-		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id))
+		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id, page=page))
 
 	# Set textarea default value
 	form.text.process_data(message.text)
-	return render_template('messages/edit.html', form=form, topic=g.topic, thread=g.thread, message=message)
+	return render_template('messages/edit.html', form=form, message=message)

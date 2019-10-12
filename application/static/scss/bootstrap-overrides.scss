@@ -102,9 +102,11 @@ a:hover span {
 		border: 0;
 		color: $gray-600;
 		padding: $spacer * 0.25 $spacer * 0.5;
+		background-color: transparent;
 	}
 
 	.page-item.disabled .page-link {
 		color: $gray-500;
+		background-color: transparent;
 	}
 }

@@ -1,0 +1,52 @@
+{% macro render_field(field, label=True) %}
+	<div class="form-group {{ label and 'row' }}">
+		{% if label %}
+			{{ field.label(class="field-label col-form-label") }}
+		{% endif %}
+		<div class="field-input">
+			{{ field(class='form-control is-invalid' if field.errors else 'form-control' , **kwargs) }}
+			{% if field.errors %}
+				{% for error in field.errors %}
+					<div class="invalid-feedback">{{ error|e }}</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+	</div>
+{% endmacro %}
+
+{% macro pages_for_range(start, end, page, render_page_link) %}
+{% for n in range(start, end + 1) %}
+	<li class="page-item {{ n == page and 'active' }}">
+		{{ render_page_link(n, n) }}
+	</li>
+{% endfor %}
+{% endmacro %}
+
+{% macro render_pagination(total, page, page_size, render_page_link) %}
+{% set pages = (total / page_size)|round(0, 'ceil')|int %}
+<ul class="pagination p-0 m-0">
+	<li class="page-item {{ page == 1 and 'disabled' }}">
+		{{ render_page_link(page - 1, 'Previous') }}
+	</li>
+	{% if pages <= 7 %}
+		{{ pages_for_range(1, pages, page, render_page_link) }}
+	{% elif page <= 4 %}
+		{{ pages_for_range(1, 5, page, render_page_link) }}
+		<li class="page-item disabled"><a class="page-link">...</a></li>
+		{{ pages_for_range(pages - 1, pages, page, render_page_link) }}
+	{% elif page >= pages - 3 %}
+		{{ pages_for_range(1, 2, page, render_page_link) }}
+		<li class="page-item disabled"><a class="page-link">...</a></li>
+		{{ pages_for_range(pages - 4, pages, page, render_page_link) }}
+	{% else %}
+		{{ pages_for_range(1, 2, page, render_page_link) }}
+		<li class="page-item disabled"><a class="page-link">...</a></li>
+		{{ pages_for_range(page - 1, page + 1, page, render_page_link) }}
+		<li class="page-item disabled"><a class="page-link">...</a></li>
+		{{ pages_for_range(pages - 1, pages, page, render_page_link) }}
+	{% endif %}
+	<li class="page-item {{ page >= total / page_size and 'disabled' }}">
+		{{ render_page_link(page + 1, 'Next') }}
+	</li>
+</ul>
+{% endmacro %}

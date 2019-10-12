@@ -4,7 +4,7 @@
 		<div class="section-header border-bottom border-light p-2">
 			<span class="h5 text-muted">New Thread</span>
 		</div>
-		{% from "forms/macros.html" import render_field %}
+		{% from "macros.html" import render_field %}
 		<form method="POST" class="form p-2">
 			{{ form.csrf_token }}
 			{{ render_field(form.title, label=False, placeholder='Title') }}

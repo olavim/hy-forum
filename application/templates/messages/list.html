@@ -1,26 +1,32 @@
 {% extends "layout/base.html" %}
-{% set total_messages = thread.total_messages() %}
+{% set total_messages = g.thread.total_messages() %}
+
+{% macro render_page_link(n, label) %}
+	<a class="page-link" href="{{ url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id, page=n ) }}">
+		{{label}}
+	</a>
+{% endmacro %}
 
 {% macro render_actions() %}
 <div class="mt-3 mb-3 d-flex">
 	<div class="d-flex flex-grow-1">
 		{% if current_user.is_authenticated %}
-			<a class="btn btn-primary" href="{{ url_for('messages.create', topic_id=topic.id, thread_id=thread.id) }}">
+			<a class="btn btn-primary" href="{{ url_for('messages.create', topic_id=g.topic.id, thread_id=g.thread.id) }}">
 				Post Reply
 				<i class="mdi ml-1">reply</i>
 			</a>
 		{% endif %}
 	</div>
 	<div class="d-flex text-muted align-items-center">
-		{{ total_messages }} {{ 'messages' if total_messages > 1 else 'message' }} •
-		Page 1 of 1
+		{% from 'macros.html' import render_pagination %}
+		{{ render_pagination(total, page, page_size, render_page_link) }}
 	</div>
 </div>
 {% endmacro %}
 
 {% block content %}
 	<div id="messages" class="category">
-		<h1 class="header mb-3 text-muted">{{ thread.title }}</h1>
+		<h1 class="header mb-3 text-muted">{{ g.thread.title }}</h1>
 		{% for message in messages %}
 			<div class="message-container d-flex flex-row bg-white shadow-sm p-3 rounded-lg overflow-hidden">
 				<div class="message-user-info {{ not message.user and 'deleted' }}">
@@ -31,12 +37,12 @@
 						<span class="message-created-timestamp" data-timestamp="{{ message.created_at }}"></span>
 						<div class="message-actions">
 							{% if current_user.has('messages:edit') or message.user.id == current_user.id %}
-								<a href="{{ url_for('messages.edit', topic_id=topic.id, thread_id=thread.id, id=message.id) }}" class="icon-button mr-1" title="edit">
+								<a href="{{ url_for('messages.edit', topic_id=g.topic.id, thread_id=g.thread.id, id=message.id, page=page) }}" class="icon-button mr-1" title="edit">
 									<i class="button mdi">edit</i>
 								</a>
 							{% endif %}
 							{% if current_user.has('messages:delete') or message.user.id == current_user.id %}
-								<form method="POST" action="{{ url_for('messages.delete', topic_id=topic.id, thread_id=thread.id, id=message.id) }}" class="form">
+								<form method="POST" action="{{ url_for('messages.delete', topic_id=g.topic.id, thread_id=g.thread.id, id=message.id, page=page) }}" class="form">
 									{{ form.csrf_token }}
 									<button type="submit" class="icon-button" title="delete">
 										<i class="button mdi">delete</i>
