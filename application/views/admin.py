@@ -2,6 +2,7 @@ import os
 import bcrypt
 from flask import Blueprint, request, redirect, url_for, render_template, abort
 from flask_login import current_user, login_required
+from config import page_size
 from ..main import db
 from ..models.user import User
 from ..models.role import Role, Permission
@@ -25,6 +26,7 @@ mod = Blueprint('admin', __name__, url_prefix='/admin')
 @login_required
 @require_permission('roles:manage')
 def users():
+	page = int(request.args.get('page') or '1')
 	search_users_form = SearchUsersForm(request.form)
 	query = User.query.order_by(User.username)
 
@@ -32,14 +34,18 @@ def users():
 		search = '%{}%'.format(request.args.get('search'))
 		query = query.filter(User.username.like(search))
 
-	users = query.all()
+	query = query.paginate(page, page_size, False)
 
-	return render_template('admin/users.html', search_users_form=search_users_form, users=users)
+	users = query.items
+	total = query.total
+
+	return render_template('admin/users.html', search_users_form=search_users_form, users=users, page=page, total=total)
 
 @mod.route('/roles', methods=['GET'])
 @login_required
 @require_permission('roles:manage')
 def roles():
+	page = int(request.args.get('page') or '1')
 	search_roles_form = SearchRolesForm(request.form)
 	delete_role_form = DeleteRoleForm(request.form)
 
@@ -49,9 +55,12 @@ def roles():
 		search = '%{}%'.format(request.args.get('search'))
 		query = query.filter(Role.name.like(search))
 
-	roles = query.all()
+	query = query.paginate(page, page_size, False)
 
-	return render_template('admin/roles.html', search_roles_form=search_roles_form, delete_role_form=delete_role_form, roles=roles)
+	roles = query.items
+	total = query.total
+
+	return render_template('admin/roles.html', search_roles_form=search_roles_form, delete_role_form=delete_role_form, roles=roles, page=page, total=total)
 
 @mod.route('/users/<int:id>/edit', methods=['GET', 'POST'])
 @login_required

@@ -45,7 +45,7 @@
 		<li class="page-item disabled"><a class="page-link">...</a></li>
 		{{ pages_for_range(pages - 1, pages, page, render_page_link) }}
 	{% endif %}
-	<li class="page-item {{ page >= total / page_size and 'disabled' }}">
+	<li class="page-item {{ page >= pages and 'disabled' }}">
 		{{ render_page_link(page + 1, 'Next') }}
 	</li>
 </ul>
