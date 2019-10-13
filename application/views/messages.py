@@ -37,15 +37,16 @@ def list():
 	messages = message_query.items
 	total = message_query.total
 
-	thread_read = ThreadRead.query.get((g.thread.id, current_user.id))
+	if current_user.is_authenticated:
+		thread_read = ThreadRead.query.get((g.thread.id, current_user.id))
 
-	if not thread_read:
-		thread_read = ThreadRead(g.thread.id, current_user.id)
-		db.session().add(thread_read)
+		if not thread_read:
+			thread_read = ThreadRead(g.thread.id, current_user.id)
+			db.session().add(thread_read)
+			db.session().commit()
+
+		thread_read.updated_at = utcnow()
 		db.session().commit()
-
-	thread_read.updated_at = utcnow()
-	db.session().commit()
 
 	form = DeleteMessageForm(request.form)
 	return render_template('messages/list.html', messages=messages, total=total, page=page, form=form)
