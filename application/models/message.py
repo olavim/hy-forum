@@ -8,8 +8,10 @@ class Message(Base):
 	text = Column(Text)
 	thread_id = Column(Integer, ForeignKey('thread.id'))
 	user_id = Column(Integer, ForeignKey('user.id'))
+	updated_by_id = Column(Integer, ForeignKey('user.id'))
 
-	user = relationship('User')
+	user = relationship('User', foreign_keys=[user_id])
+	updated_by = relationship('User', foreign_keys=[updated_by_id])
 
 	def __init__(self, text=None, thread_id=None, user_id=None):
 		self.text = text

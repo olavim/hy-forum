@@ -101,6 +101,7 @@ def edit(id):
 
 	if form.validate_on_submit():
 		message.text = form.text.data
+		message.updated_by = current_user
 		db.session().commit()
 
 		return redirect(url_for('messages.list', topic_id=g.topic.id, thread_id=g.thread.id, page=page))

@@ -35,7 +35,7 @@
 					{{ message.user.username if message.user else 'User deleted' }}
 				</div>
 				<div class="message-body flex-grow-1 pl-3">
-					<div class="message-body-top d-flex flex-row justify-content-between pb-2 border-bottom border-light text-muted">
+					<div class="message-body-top d-flex flex-row justify-content-between align-items-center pb-2 border-bottom border-light text-muted">
 						<span class="message-created-timestamp" data-timestamp="{{ message.created_at }}"></span>
 						<div class="message-actions">
 							{% if current_user.has('messages:edit') or message.user.id == current_user.id %}
@@ -53,7 +53,17 @@
 							{% endif %}
 						</div>
 					</div>
-					<div class="message-text pt-2">{{ message.text }}</div>
+					<div class="message-text pt-2 pb-2">{{ message.text }}</div>
+					{% if message.updated_at > message.created_at %}
+						<div class="message-body-bottom d-flex flex-row pt-2 border-top border-light text-muted">
+							<span>Last edited</span>&nbsp;
+							{% if message.updated_by %}
+								<span>by {{ message.updated_by.username }}</span>&nbsp;
+							{% endif %}
+							<span>on</span>&nbsp;
+							<span class="message-created-timestamp" data-timestamp="{{ message.updated_at }}"></span>&nbsp;
+						</div>
+					{% endif %}
 				</div>
 			</div>
 		{% endfor %}

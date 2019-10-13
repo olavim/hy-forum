@@ -201,10 +201,6 @@ table {
 		font-size: 2.6rem;
 	}
 
-	.message-created-timestamp {
-		line-height: 2.4rem;
-	}
-
 	.message-actions, .message-actions .form {
 		display: flex;
 		align-items: center;
@@ -233,6 +229,10 @@ table {
 
 	.message-text {
 		white-space: pre-wrap;
+	}
+
+	.message-body-bottom {
+		font-style: italic;
 	}
 }
 
