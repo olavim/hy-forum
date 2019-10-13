@@ -52,7 +52,7 @@ import application.models.topic
 import application.models.thread
 import application.models.message
 
-# Turn foreign key support on in sqlite3. Needed for cascade constraints.
+# Turn foreign key support on in sqlite3. Needed for foreign key constraints.
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 from sqlite3 import Connection as SQLite3Connection

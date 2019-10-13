@@ -9,7 +9,7 @@ from ..models.topic import Topic
 from ..models.thread import Thread
 from ..models.message import Message
 from ..forms.thread import ThreadForm, EditThreadForm, DeleteThreadForm
-from ..decorators.auth import require_permission
+from ..decorators import require_permission, get_resource, paginated
 
 mod = Blueprint('threads', __name__, url_prefix='/topics/<topic_id>/threads')
 
@@ -22,9 +22,8 @@ def pull_lang_code(endpoint, values):
 		abort(404)
 
 @mod.route('/', methods=['GET'])
-def list():
-	page = int(request.args.get('page') or '1')
-
+@paginated
+def list(page):
 	thread_query = Thread.query \
 		.filter(Thread.topic_id == g.topic.id) \
 		.order_by(Thread.created_at.asc()) \
@@ -39,9 +38,10 @@ def list():
 @mod.route('/<int:id>/delete', methods=['POST'])
 @login_required
 @require_permission('threads:delete')
-def delete(id):
-	page = int(request.args.get('page') or '1')
-	Thread.query.filter(Thread.id == id).delete()
+@get_resource(Thread)
+@paginated
+def delete(thread, page):
+	Thread.query.filter(Thread.id == thread.id).delete()
 	db.session().commit()
 	return redirect(url_for('threads.list', topic_id=g.topic.id, page=page))
 
@@ -66,19 +66,13 @@ def create():
 @mod.route('/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
 @require_permission('threads:edit')
-def edit(id):
-	page = int(request.args.get('page') or '1')
-	thread = Thread.query.get(id)
-
-	if not thread:
-		abort(404)
-
+@get_resource(Thread)
+@paginated
+def edit(thread, page):
 	form = EditThreadForm(request.form)
-
 	if form.validate_on_submit():
 		thread.title = form.title.data
 		db.session().commit()
-
 		return redirect(url_for('threads.list', topic_id=g.topic.id, page=page))
 
 	return render_template('threads/edit.html', form=form, thread=thread)

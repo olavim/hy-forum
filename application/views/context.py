@@ -3,6 +3,8 @@ import config
 from ..main import app
 from ..forms.search import QuickSearchForm
 
+# Inject some common variables to all templates
+
 @app.context_processor
 def inject_search_form():
 	search_form = QuickSearchForm(None)
