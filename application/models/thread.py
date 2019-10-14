@@ -45,7 +45,11 @@ class Thread(Base):
 			return False
 
 		thread_read = ThreadRead.query.get((self.id, current_user.id))
-		return not thread_read or self.latest_message().created_at > thread_read.updated_at
+
+		if not thread_read:
+			return True
+
+		return self.latest_message() and self.latest_message().created_at > thread_read.updated_at
 
 class ThreadRead(TimestampBase):
 	__tablename__ = 'thread_read'

@@ -153,7 +153,7 @@ def add_role_permission(role):
 		role.permissions.append(permission)
 		db.session().commit()
 
-	return redirect(url_for('admin.edit_role', id=id))
+	return redirect(url_for('admin.edit_role', id=role.id))
 
 @mod.route('/roles/<int:id>/permissions/<int:permission_id>/delete', methods=['POST'])
 @login_required
