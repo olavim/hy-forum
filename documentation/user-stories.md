@@ -33,10 +33,6 @@
   ```sql
   INSERT INTO thread (title, topic_id, user_id) VALUES (?, ?, ?);
   ```
-- [x] As a user, I can edit the title of threads I have created.
-  ```sql
-  UPDATE thread SET title = ? WHERE id = ?;
-  ```
 - [x] As a moderator, I can edit and delete messages of other users.
   ```sql
   UPDATE message SET text = ? WHERE id = ?;
